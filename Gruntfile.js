@@ -1,24 +1,35 @@
-// Generated on 2014-03-25 using generator-webapp 0.4.8
-'use strict';
-
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
 module.exports = function (grunt) {
+    "use strict"
 
-    // Load grunt tasks automatically
     require('load-grunt-tasks')(grunt);
-
-    // Time how long tasks take. Can help when optimizing build times
     require('time-grunt')(grunt);
 
-    // Define the configuration for all the tasks
-    grunt.initConfig({
+    grunt.loadNpmTasks('grunt-bower-task');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-clean');
 
-        // Project settings
+    grunt.initConfig({
+        bower: {
+          install: {
+            options: {
+              targetDir: "app/lib",
+              layout: "byType",
+              install: true,
+              verbose: true,
+              cleanTargetDir: false,
+              cleanBowerDir: true
+            }
+          }
+        },
+
+        less: {
+          devel: {
+            files: {
+              "app/css/style.css": "app/less/style.less"
+            }
+          }
+        },
         config: {
             // Configurable paths
             app: 'app',
@@ -58,7 +69,14 @@ module.exports = function (grunt) {
                     '.tmp/styles/{,*/}*.css',
                     '<%= config.app %>/images/{,*/}*'
                 ]
-            }
+            },
+            less: {
+              files: ["app/less/*.less"],
+              tasks: ["less"],
+              options: {
+                        spawn: false,
+              },
+            },
         },
 
         // The actual grunt server settings
@@ -66,7 +84,6 @@ module.exports = function (grunt) {
             options: {
                 port: 9000,
                 livereload: 35729,
-                // Change this to '0.0.0.0' to access the server from outside
                 hostname: 'localhost'
             },
             livereload: {
@@ -99,6 +116,9 @@ module.exports = function (grunt) {
 
         // Empties folders to start fresh
         clean: {
+            bower: ["bower_components"],
+            lib: ['./app/lib'],
+            node_modules: ['node_modules'],
             dist: {
                 files: [{
                     dot: true,
@@ -237,32 +257,6 @@ module.exports = function (grunt) {
             }
         },
 
-        // By default, your `index.html`'s <!-- Usemin block --> will take care of
-        // minification. These next options are pre-configured if you do not wish
-        // to use the Usemin blocks.
-        // cssmin: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/styles/main.css': [
-        //                 '.tmp/styles/{,*/}*.css',
-        //                 '<%= config.app %>/styles/{,*/}*.css'
-        //             ]
-        //         }
-        //     }
-        // },
-        // uglify: {
-        //     dist: {
-        //         files: {
-        //             '<%= config.dist %>/scripts/scripts.js': [
-        //                 '<%= config.dist %>/scripts/scripts.js'
-        //             ]
-        //         }
-        //     }
-        // },
-        // concat: {
-        //     dist: {}
-        // },
-
         // Copies remaining files to places other tasks can use
         copy: {
             dist: {
@@ -356,6 +350,7 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('default', [
+        ['bower:install'],
         'newer:jshint',
         'test',
         'build'

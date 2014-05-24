@@ -5,5 +5,19 @@
     "bootstrap": "~3.0.3",
     "jquery": "~1.11.0"
   },
-  "devDependencies": {}
+  "exportsOverride": {
+    "jquery": {
+      "js": "dist/jquery.min.js"
+    },
+    "bootstrap": {
+      "js": "dist/js/bootstrap.min.js",
+      "css": [
+              "dist/css/bootstrap.min.css",
+              "dist/css/bootstrap-theme.min.css"
+              ]
+    },
+    "underscore": {
+      "js": "underscore.js"
+    }
+  }
 }
