@@ -5,7 +5,6 @@ module.exports = function (grunt) {
     require('time-grunt')(grunt);
 
     grunt.loadNpmTasks('grunt-bower-task');
-    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-clean');
 
@@ -23,13 +22,6 @@ module.exports = function (grunt) {
           }
         },
 
-        less: {
-          devel: {
-            files: {
-              "app/css/style.css": "app/less/style.less"
-            }
-          }
-        },
         config: {
             // Configurable paths
             app: 'app',
@@ -69,13 +61,6 @@ module.exports = function (grunt) {
                     '.tmp/styles/{,*/}*.css',
                     '<%= config.app %>/images/{,*/}*'
                 ]
-            },
-            less: {
-              files: ["app/less/*.less"],
-              tasks: ["less"],
-              options: {
-                        spawn: false,
-              },
             },
         },
 
