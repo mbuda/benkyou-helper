@@ -3,10 +3,14 @@
   "version": "0.0.0",
   "dependencies": {
     "ect": "^0.5.9",
-    "ejs": "*",
-    "ejs-locals": "^1.0.2",
     "express": "~3.4",
-    "less-middleware": "1.0.3"
+    "express-session": "*",
+    "less-middleware": "1.0.3",
+    "redis": "^0.10.3",
+    "connect-redis": "*",
+    "socket.io": "^1.0.3",
+    "session.socket.io": "*",
+    "underscore": "^1.6.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

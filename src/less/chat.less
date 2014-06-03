@@ -1,0 +1,144 @@
+@w: 600px;
+@c: #eee;
+
+h3 {
+    text-align:center;
+}
+
+.clearfix {
+    clear: both;
+}
+#chatters {
+    list-style: none;
+    width: @w*0.15;
+    float: left;
+    padding: 8px;
+    border: 1px solid darken(@c, 25%);
+    border-radius: 10px;
+    background-color: lighten(@c, 25%);
+}
+
+div.with-border {
+    margin: 0 auto;
+    width: @w;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid darken(@c, 20%);
+    -webkit-border-radius: 20px;
+}
+
+#error {
+    background-color: #BA0000;
+    color: @c;
+    font-weight: bold;
+}
+
+#ask {
+    background-color: @c;
+    width: 0.8*@w;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    font-size: 20px;
+
+    #name {
+       font-size: 20px;
+       padding: 10px;
+       margin: 0 10px;
+    }
+    .join{
+        margin-bottom: 5px;
+        margin-top: 5px;
+    }
+}
+#channel {
+    float: right;
+    height: @w - 120px;
+    position: relative;
+    margin-bottom: 7px;
+    margin-top: 7px;
+    background-color: @c;
+}
+
+#channel div#descr {
+    background-color: @c,5%;
+    position: absolute;
+    left: -10px;
+    top: -190px;
+    font-size: 13px;
+    text-align: left;
+    line-height: 20px;
+    padding: 5px;
+    width: @w + 40px;
+}
+
+div#message-box {
+    overflow-y: scroll;
+    height: 0.6*@w;
+    background-color: @c;
+    div#input {
+        border: 1px solid darken(@c, 20%);
+        border-radius: 25px;
+        text-align: left;
+        padding: 20px;
+        margin-top: 20px;
+        form {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            #message {
+                width: @w;
+                border: 5px solid #bbb;
+                -webkit-border-radius: 3px;
+                font-size: 30pt;
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+}
+
+div#message-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: left;
+}
+
+div#message-box li {
+    line-height: 22px;
+    margin-top: 2px;
+}
+
+div#message-box li:hover {
+  background-color: lighten(@c, 15%);
+}
+
+div#message-box li span.user {
+    color: #627384;
+    text-decoration: underline;
+}
+
+div#message-box li span.user.self {
+    color: #727891;
+}
+
+div#message-box li span.time {
+    float: right;
+    margin-right: 5px;
+    color: #aaa;
+    font-family: "Courier New";
+    font-size: 11px;
+}
+
+div#message-box li.control {
+    text-align: center;
+    margin-right: 5px;
+    width: 0.5*@w;
+    padding: 2px;
+    border: dotted 1px darken(@c, 10%);
+    background-color: lighten(@c, 10%);
+}
+
+div#message-box li.control span.message {
+    color: #aaa;
+}
+
