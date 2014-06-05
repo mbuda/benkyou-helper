@@ -75,11 +75,6 @@ jQuery(function(){
 
     var prev = {};
 
-    document.addEventListener("touchstart", touchHandler, true);
-    document.addEventListener("touchmove", touchHandler, true);
-    document.addEventListener("touchend", touchHandler, true);
-    document.addEventListener("touchcancel", touchHandler, true);
-
     function touchHandler(event)
     {
       var touches = event.changedTouches,
@@ -87,23 +82,23 @@ jQuery(function(){
           type = '';
       switch(event.type)
       {
-        case "touchstart":
-          type = "mousedown";
+        case 'touchstart':
+          type = 'mousedown';
           break;
-        case "touchmove":
-          type = "mousemove";
+        case 'touchmove':
+          type = 'mousemove';
           break;
-        case "touchend":
-          type = "mouseup";
+        case 'touchend':
+          type = 'mouseup';
           break;
-        case "touchcancel":
-          type = "mouseup";
+        case 'touchcancel':
+          type = 'mouseup';
           break;
         default:
           return;
       }
 
-      var simulatedEvent = document.createEvent("MouseEvent");
+      var simulatedEvent = document.createEvent('MouseEvent');
       simulatedEvent.initMouseEvent(type, true, true, window, 1,
           first.screenX, first.screenY,
           first.clientX, first.clientY, false,
@@ -112,6 +107,10 @@ jQuery(function(){
       first.target.dispatchEvent(simulatedEvent);
       event.preventDefault();
     }
+    document.addEventListener('touchstart', touchHandler, true);
+    document.addEventListener('touchmove', touchHandler, true);
+    document.addEventListener('touchend', touchHandler, true);
+    document.addEventListener('touchcancel', touchHandler, true);
 
     canvas.on('mousedown', function(e){
       e.preventDefault();
@@ -179,4 +178,10 @@ jQuery(function(){
       ctx.stroke();
     }
 
+    $('#save_img').click( function () {
+        console.log('Image saved.');
+        var img = canvas[0].toDataURL('image/png');
+        $('#images').html('<img src="' + img + '"/>');
+        $('#save_img').show();
+    });
 });
