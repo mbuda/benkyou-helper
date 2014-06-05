@@ -1,0 +1,30 @@
+@a: #222;
+
+hgroup{
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.7);
+    width: 400px;
+    height: 78px;
+    top: 50%;
+    left: 50%;
+    margin: -120px 0 0 -225px;
+    text-align: center;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 3px rgba(100, 100, 100, 0.1), 0 3px 1px #D4D4D4;
+    color: @a + #222;
+}
+
+#cursors{
+    position:relative;
+    .cursor{
+    position:absolute;
+    width:15px;
+    height:22px;
+    background:url('../../public/img/pen.png') no-repeat -4px 0;
+    }
+}
+
+#paper {
+    background-color: @a;
+}

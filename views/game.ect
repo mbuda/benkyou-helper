@@ -1,0 +1,16 @@
+<% extend 'layout' %>
+<div id="cursors">
+</div>
+
+<canvas id="paper" width="800px" height="600px">
+If your browser don't support canvas you can't play with us...
+</canvas>
+
+<hgroup id="instructions">
+    <h1>Let's play!</h1>
+    <h2>One person draw kanji, others what remind them of it.</h2>
+    <h3>If you want to clear the board, refresh page</h3>
+</hgroup>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/game.js"></script>

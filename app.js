@@ -81,6 +81,10 @@ app.get('/chat', function (req, res){
   });
 });
 
+app.get('/game', function(req, res) {
+  res.render('game');
+});
+
 app.post('/user', function(req,res) {
   req.session.user = req.body.user;
   res.json({'error': ''});
@@ -106,6 +110,15 @@ sub.subscribe('chat');
  * Sockets part of code
  */
 
+// Draw game
+io.of('/game').on('connection', function (socket) {
+
+  socket.on('mousemove', function (data) {
+    socket.broadcast.emit('moving', data);
+  });
+});
+
+// Chat
 sessionSockets.on('connection', function (err, socket, session) {
     if(!session.user) { return; }
 
