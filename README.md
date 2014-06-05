@@ -1,5 +1,5 @@
-# Benkyou Helper 
-# - my first Node.js project
+#Benkyou Helper 
+## My first Node.js project
 
 ###How to run
 
@@ -24,7 +24,7 @@ in your terminal to start application server. A
 
 All is left: visit [this site](http://localhost:3000) and enjoy.
 
-##About application.
+###About application.
 
 This app was created for Web Technology classes.
 It may help with learning japanese language.
