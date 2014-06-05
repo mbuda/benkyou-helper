@@ -181,7 +181,7 @@ jQuery(function(){
     $('#save_img').click( function () {
         console.log('Image saved.');
         var img = canvas[0].toDataURL('image/png');
-        $('#images').html('<img src="' + img + '"/>');
+        $('#images').append('<img src="' + img + '"/>');
         $('#save_img').show();
     });
 });
