@@ -2,7 +2,7 @@
 /* global io */
 'use strict';
 
-jQuery(function(){
+$(document).ready(function () {
 
   // Your browser need to support canvas element
   if(!('getContext' in document.createElement('canvas'))){
@@ -17,11 +17,6 @@ jQuery(function(){
   ctx = canvas[0].getContext('2d'),
   canvasOffset = canvas.offset(),
   instructions = jQuery('#instructions');
-
-  // Force canvas to dynamically change its size to the same width/height
-  // as the browser window.
-  canvas[0].width = document.body.clientWidth;
-  canvas[0].height = document.body.clientHeight;
 
   // ctx setup
   ctx.lineCap = 'round';
@@ -102,7 +97,7 @@ jQuery(function(){
       simulatedEvent.initMouseEvent(type, true, true, window, 1,
           first.screenX, first.screenY,
           first.clientX, first.clientY, false,
-          false, false, false, 0/*left*/, null);
+          false, false, false, 0, null);
 
       first.target.dispatchEvent(simulatedEvent);
       event.preventDefault();
@@ -153,24 +148,6 @@ jQuery(function(){
       }
     });
 
-    // Remove inactive clients after 10 seconds of inactivity
-    setInterval(function(){
-      var totalOnline = 0;
-      for(var ident in clients){
-        if(jQuery.now() - clients[ident].updated > 10000){
-
-          // Last update was more than 10 seconds ago.
-          // This user has probably closed the page
-
-          cursors[ident].remove();
-          delete clients[ident];
-          delete cursors[ident];
-        }
-        else { totalOnline++; }
-      }
-      jQuery('#onlineCounter').html('Players Connected: '+totalOnline);
-    },10000);
-
     function drawLine(fromx, fromy, tox, toy){
       ctx.beginPath();
       ctx.moveTo(fromx - canvasOffset.left, fromy - canvasOffset.top);
@@ -182,6 +159,7 @@ jQuery(function(){
         console.log('Image saved.');
         var img = canvas[0].toDataURL('image/png');
         $('#images').append('<img src="' + img + '"/>');
+        $('#images').append('<span id="line"></span>');
         $('#save_img').show();
     });
 });
