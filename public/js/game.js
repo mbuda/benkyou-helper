@@ -15,13 +15,19 @@ $(document).ready(function () {
   var doc = jQuery(document),
   canvas = jQuery('#paper'),
   ctx = canvas[0].getContext('2d'),
+  img = new Image,
   canvasOffset = canvas.offset(),
   instructions = jQuery('#instructions');
+
+  img.src = '../img/ai.jpg';
+  img.onload = function () {
+      ctx.drawImage(img, 0, 0);
+  };
 
   // ctx setup
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.lineWidth = 9;
+  ctx.lineWidth = 5;
 
   // Generate an unique ID
   var id = Math.round(jQuery.now()*Math.random());
