@@ -15,7 +15,7 @@ $(document).ready(function () {
   var doc = jQuery(document),
   canvas = jQuery('#paper'),
   ctx = canvas[0].getContext('2d'),
-  img = new Image,
+  img = new Image(),
   canvasOffset = canvas.offset(),
   instructions = jQuery('#instructions');
 
