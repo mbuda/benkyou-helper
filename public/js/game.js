@@ -19,7 +19,10 @@ $(document).ready(function () {
   canvasOffset = canvas.offset(),
   instructions = jQuery('#instructions');
 
-  img.src = '../img/ai.jpg';
+  var images = ['/img/1.jpg', '/img/2.jpg', '/img/3.jpg', '/img/4.jpg', '/img/5.jpg',
+  '/img/6.jpg', '/img/7.jpg', '/img/8.jpg'];
+  var random_img = images[Math.floor(Math.random() * images.length)];
+  img.src = '..' + random_img;
   img.onload = function () {
       ctx.drawImage(img, 0, 0);
   };
