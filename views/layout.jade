@@ -1,0 +1,66 @@
+doctype html
+// if lt IE 7
+  html .no-js.lt-ie9.lt-ie8.lt-ie7
+// if IE 7
+  html .no-js.lt-ie9.lt-ie8
+// if IE 8
+  html .no-js.lt-ie9
+html.no-js
+    head
+    meta(charset="utf-8")
+    title Benkyou Helper
+    link(rel="shortcut icon", href="/favicon.ico")
+    // build:css styles/vendor.css
+    // bower:css
+    link(rel="stylesheet", href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+    // endbower
+    // endbuild
+    // build:css(.tmp) css/main.css
+    link(rel="stylesheet", href="css/main.css")
+    // endbuild
+  body
+    // if lt IE 10
+      p.browsehappy
+      | You are using an outdated browser. Please
+      a(href="http://browsehappy.com/") upgrade your browser
+      | to improve your experience.
+
+    // build:js scripts/vendor.js
+    // bower:js
+    script(type="text/javascript", src="/bower_components/jquery/dist/jquery.js")
+    // endbower
+    //  endbuild
+
+    script(type="text/javascript", src="/bower_components/jade/jade.js")
+
+    // build:js scripts/plugins.js
+    script(type="text/javascript", src="/bower_components/bootstrap/dist/js/bootstrap.js")
+    // endbuild
+
+    // build:js({app,.tmp}) scripts/main.js
+    script(type="text/javascript", src="js/main.js")
+    // endbuild
+    .container
+      .header
+        ul.nav.nav-pills.pull-right
+          li
+            a(href="/") Home
+          li
+            a(href="/about") About
+          li
+            a(href="/game") Game
+          li
+            a(href="/chat") Chat
+          li
+            a(href="/contact") Contact
+        h3.text-muted Benkyou Helper ^^
+
+      .page-inner
+        block content
+
+      .footer
+        p
+          span.glyphicon.glyphicon-heart
+          |  Made by Marta "Anaksamea" Buda
+
+      block scripts
