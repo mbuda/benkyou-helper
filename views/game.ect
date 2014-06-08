@@ -6,16 +6,20 @@
 If your browser don't support canvas you can't play with us...
 </canvas>
 
-<div id="image"></div>
+<div id="board-btns">
+    <button id="save_img" class="btn btn-success">Save an image</button>
+    <button id="change_bg" class="btn btn-success">Change background</button>
+    <button id="bigger_brush" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>brush</button>
+    <button id="smaller_brush" class="btn btn-success"><span class="glyphicon glyphicon-minus"></span>brush</button>
+</div>
 
 <div id="images">
-    <button id="save_img" class="btn btn-success">Save an image</button>
 </div>
 
 <hgroup id="instructions">
     <h2>Let's play!</h2>
     <h3>I gave you kanji, you draw anything that help you remind it.</h3>
-    <h4>If you want to change board, refresh page</h4>
+    <h4>If you want to clear your board, refresh page</h4>
 </hgroup>
 
 <script src="/socket.io/socket.io.js"></script>
