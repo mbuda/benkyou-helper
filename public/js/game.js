@@ -10,19 +10,18 @@ $(document).ready(function () {
     return false;
   }
 
+	// set url to which socket will be connected
   var url = window.location.hostname + '/game';
 
+	// some variables for canvas
   var doc = jQuery(document),
   canvas = jQuery('#paper'),
   ctx = canvas[0].getContext('2d'),
   img = new Image(),
   canvasOffset = canvas.offset(),
-  instructions = jQuery('#instructions');
-
-  var images = ['/img/1.jpg', '/img/2.jpg', '/img/3.jpg', '/img/4.jpg', '/img/5.jpg',
-  '/img/6.jpg', '/img/7.jpg', '/img/8.jpg'];
-  var random_img = images[Math.floor(Math.random() * images.length)];
-  img.src = '..' + random_img;
+  images = ['/img/1.jpg', '/img/2.jpg', '/img/3.jpg', '/img/4.jpg', '/img/5.jpg', '/img/6.jpg', '/img/7.jpg', '/img/8.jpg'];
+  var randomImg = images[Math.floor(Math.random() * images.length)];
+  img.src = '..' + randomImg;
   img.onload = function () {
       ctx.drawImage(img, 0, 0);
   };
@@ -122,8 +121,6 @@ $(document).ready(function () {
       prev.x = e.pageX;
       prev.y = e.pageY;
 
-      // Hide the instructions
-      instructions.fadeOut();
     });
 
     doc.bind('mouseup mouseleave', function(){
@@ -171,4 +168,13 @@ $(document).ready(function () {
         $('#images').append('<span id="line"></span>');
         $('#save_img').show();
     });
+
+		$('#bigger_brush').click(function () {
+				ctx.lineWidth += 1;
+		});
+
+		$('#smaller_brush').click(function () {
+				ctx.lineWidth -= 1;
+		});
+
 });

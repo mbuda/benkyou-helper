@@ -1,23 +1,30 @@
 extends layout
 
 block content
-  #cursors
-  canvas#paper(width='600px', height='400px')
-    | If your browser don't support canvas you can't play with us...
-  #board-btns
-    button#save_img.btn.btn-success Save an image
-    button#change_bg.btn.btn-success Change background
-    button#bigger_brush.btn.btn-success
-      span.glyphicon.glyphicon-plus
-      | brush
-    button#smaller_brush.btn.btn-success
-      span.glyphicon.glyphicon-minus
-      | brush
-  #images
-  hgroup#instructions
-    h2 Let's play!
-    h3 I gave you kanji, you draw anything that help you remind it.
-    h4 If you want to clear your board, refresh page
+  .col-md-7  
+    #cursors
+    canvas#paper(width='600px', height='400px')
+      | If your browser don't support canvas you can't play with us...
+ 
+  .col-md-5
+    #instructions
+      h2 Let's play!
+      h3 I gave you kanji, you draw anything that help you remind it.
+      h4 If you want to clear your board, refresh page
+
+    #board-btns
+      button#save_img.btn.btn-success Save an image
+      button#change_bg.btn.btn-success Change background
+      br
+      button#bigger_brush.btn.btn-success
+        span.glyphicon.glyphicon-plus
+        |  brush
+      button#smaller_brush.btn.btn-success
+        span.glyphicon.glyphicon-minus
+        |  brush
+ 
+  .row
+    #images
 
 block scripts
   script(src='/socket.io/socket.io.js')
