@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  h3 Welcome to our chat
+  h5#num
+  #ask.with-border(style='display: none;')
+    | Name:
+    input#name(type='text')
+    a(href='#')
+      span.join.btn.btn-info Join!
+  ul#chatters(style='display: none;')
+  #channel.with-border(style='display: none;')
+    #message-box
+      ul
+        li.message(style='display: none')
+          span.user
+          span.message
+          span.time
+        li.control(style='display: none')
+          span.user
+          span.message
+          span.time
+    #input
+      form
+        input#message(type='text', placeholder='write your message')
+  .clearfix
+block scripts
+  script(src='http://datejs.googlecode.com/svn/trunk/build/date.js')
+  script(src='/socket.io/socket.io.js')
+  script(src='js/chat.js')

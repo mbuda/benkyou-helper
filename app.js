@@ -8,8 +8,6 @@ var http = require('http');
 var express = require('express');
 var app = express();
 var httpServer = http.createServer(app);
-var ECT = require('ect');
-var ectRenderer = ECT({ watch: true, root: __dirname + '/views', ext : '.ect' });
 var path = require('path');
 var less = require('less-middleware');
 var socket = require('socket.io');
@@ -30,8 +28,7 @@ var cookieParser = express.cookieParser('S3cr3t');
 app.configure(function() {
   app.set('port', process.env.PORT || 3000);  // set port
   app.set('views', __dirname + '/views');     // set views directory
-  app.set('view engine', 'ect');              // set views engine
-  app.engine('ect', ectRenderer.render);      // and how to render views
+  app.set('view engine', 'jade');              // set views engine
   app.use(express.favicon());                 // favicon load
   app.use(express.logger('dev'));             // logger on development environment
   app.use(express.bodyParser());              // bodyParser
