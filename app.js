@@ -14,6 +14,7 @@ var socket = require('socket.io');
 var io = socket.listen(httpServer);
 var _ = require('underscore');
 var redis = require('redis');
+var rC = redis.createClient();
 var redisClient = redis.createClient();
 var sess = require('express-session');
 var RedisStore = require('connect-redis')(sess);
@@ -102,6 +103,10 @@ var numChatters = 0;
 var sub = redis.createClient();
 var pub = redis.createClient();
 sub.subscribe('chat');
+  
+rC.set('bg', '1.jpg', function (err, reply) {
+  console.log(reply.toString());
+});
 
 /*
  * Sockets part of code
@@ -109,6 +114,28 @@ sub.subscribe('chat');
 
 // Draw game
 io.of('/game').on('connection', function (socket) {
+
+  socket.on('set bg', function () {
+    rC.get('bg', function (err, reply) {
+      var basicBg = reply.toString();
+      console.log(basicBg);
+      socket.emit('bg set', basicBg);
+    });
+  });
+
+  socket.on('change bg', function() {
+    var images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'];
+    var randomBg = images[Math.floor(Math.random()*images.length)]; 
+    rC.set('bg', randomBg, function (err, reply) {
+      console.log(reply.toString());
+    });
+    rC.get('bg', function (err, reply) {
+      var changedBg = reply.toString();
+      console.log(changedBg);
+      io.of('/game').emit('bg set', changedBg);
+    });
+  });
+
 
   socket.on('mousemove', function (data) {
     socket.broadcast.emit('moving', data);

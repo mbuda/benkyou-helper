@@ -18,13 +18,7 @@ $(document).ready(function () {
   canvas = jQuery('#paper'),
   ctx = canvas[0].getContext('2d'),
   img = new Image(),
-  canvasOffset = canvas.offset(),
-  images = ['/img/1.jpg', '/img/2.jpg', '/img/3.jpg', '/img/4.jpg', '/img/5.jpg', '/img/6.jpg', '/img/7.jpg', '/img/8.jpg'];
-  var randomImg = images[Math.floor(Math.random() * images.length)];
-  img.src = '..' + randomImg;
-  img.onload = function () {
-      ctx.drawImage(img, 0, 0);
-  };
+  canvasOffset = canvas.offset();
 
   // ctx setup
   ctx.lineCap = 'round';
@@ -48,6 +42,18 @@ $(document).ready(function () {
 
     var socket = io.connect(url);
 
+    socket.on('connect', function () {
+      socket.emit('set bg');
+    });
+
+    socket.on('bg set', function(data) {
+      img.src = '../img/' + data;
+      img.onload = function () {
+	ctx.drawImage(img, 0, 0);
+      };
+      console.log(data);
+    });
+      	
     socket.on('moving', function (data) {
 
       if(! (data.id in clients)){
@@ -169,12 +175,16 @@ $(document).ready(function () {
         $('#save_img').show();
     });
 
-		$('#bigger_brush').click(function () {
-				ctx.lineWidth += 1;
-		});
+    $('#change_bg').click(function () {
+        socket.emit('change bg');
+    });
 
-		$('#smaller_brush').click(function () {
-				ctx.lineWidth -= 1;
-		});
+    $('#bigger_brush').click(function () {
+	ctx.lineWidth += 1;
+    });
+
+    $('#smaller_brush').click(function () {
+	ctx.lineWidth -= 1;
+    });
 
 });
