@@ -1,16 +1,17 @@
 extends layout
 
 block content
-  .col-md-7  
+  #title.h1 Board game
+  .col-md-7
     #cursors
     canvas#paper(width='600px', height='400px')
       | If your browser don't support canvas you can't play with us...
- 
+
   .col-md-5
     #instructions
       h2 Let's play!
       h3 I gave you kanji, you draw anything that help you remind it.
-      h4 If you want to clear your board, refresh page
+      h4 If you want to clear your board, refresh page or change background
 
     #board-btns
       button#save_img.btn.btn-success Save an image
@@ -22,7 +23,7 @@ block content
       button#smaller_brush.btn.btn-success
         span.glyphicon.glyphicon-minus
         |  brush
- 
+
   .row
     #images
 
