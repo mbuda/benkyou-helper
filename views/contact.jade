@@ -1,14 +1,21 @@
 extends layout
 
 block content
+  #title
+    h1 Contact
+    h4 Feel free to write to me
   #contact-list
-    h2 Feel free to write to me
-      h4 You can find me here:
-      ul.list-group
+    .panel.panel-default
+      .panel-heading
+        h4 You can find me:
+      ul.panel-body.list-group
         li.list-group-item
           | on
-          a(href='http://twitter.com/anaksamea') twitter
+          a(href='http://github.com/mbuda')  Github
         li.list-group-item
           | on
-          a(href='http://linkedin.com/in/anaksamea') linkedin
-        li.list-group-item or just write an email anaksamea@gmail.com
+          a(href='http://twitter.com/anaksamea')  Twitter
+        li.list-group-item
+          | on
+          a(href='http://linkedin.com/in/anaksamea')  Linkedin
+        li.list-group-item or just write an email to anaksamea@gmail.com
