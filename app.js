@@ -6,6 +6,7 @@
  */
 var http = require('http');
 var express = require('express');
+var logfmt = require('logfmt');
 var app = express();
 var httpServer = http.createServer(app);
 var path = require('path');
@@ -30,6 +31,7 @@ app.configure(function() {
   app.set('port', process.env.PORT || 3000);  // set port
   app.set('views', __dirname + '/views');     // set views directory
   app.set('view engine', 'jade');              // set views engine
+  app.use(logfmt.requestLogger());
   app.use(express.favicon());                 // favicon load
   app.use(express.logger('dev'));             // logger on development environment
   app.use(express.bodyParser());              // bodyParser
@@ -103,7 +105,7 @@ var numChatters = 0;
 var sub = redis.createClient();
 var pub = redis.createClient();
 sub.subscribe('chat');
-  
+
 rC.set('bg', '1.jpg', function (err, reply) {
   console.log(reply.toString());
 });
@@ -125,7 +127,7 @@ io.of('/game').on('connection', function (socket) {
 
   socket.on('change bg', function() {
     var images = ['1.jpg', '2.jpg', '3.jpg', '4.jpg', '5.jpg', '6.jpg', '7.jpg', '8.jpg'];
-    var randomBg = images[Math.floor(Math.random()*images.length)]; 
+    var randomBg = images[Math.floor(Math.random()*images.length)];
     rC.set('bg', randomBg, function (err, reply) {
       console.log(reply.toString());
     });
