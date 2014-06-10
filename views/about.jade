@@ -1,17 +1,20 @@
 extends layout
 
 block content
-  .jumbotron
-    h2 So you want to know some more?
-    p.lead This site was created for Web Technology classes
-    p and because I love japanese language.
-    p
-      a.btn.btn-lg.btn-success(href='/games')
-        | Don't waste time, learn!
-        span.glyphicon.glyphicon-ok
-  .row
-    #about-list
-      h3 What I prepared for you?
-      ul#about-ul.list-group
-        li.list-group-item chat for real-time talk
-        li.list-group-item game based on interactive board
+  #title.row
+    h1 About
+    .col-md-offset-3
+      h4 This site was created for Web Technology classes
+      p and because I love Japanese language.
+  #about-list.col-md-7
+    h3 What I prepared for you?
+    ul#about-ul.list-group
+      li.list-group-item chat for real-time talk
+      li.list-group-item game based on interactive board
+  #about-tech.col-md-5
+    h3 What packages I used?
+    ul.list-group
+      li.list-group-item Node.js
+      li.list-group-item Express.js
+      li.list-group-item Socket.io
+      li.list-group-item Jade
