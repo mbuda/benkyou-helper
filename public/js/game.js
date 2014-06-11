@@ -47,13 +47,13 @@ $(document).ready(function () {
     });
 
     socket.on('bg set', function(data) {
-      img.src = '../img/' + data;
+      img.src = data;
       img.onload = function () {
 	ctx.drawImage(img, 0, 0);
       };
       console.log(data);
     });
-      	
+
     socket.on('moving', function (data) {
 
       if(! (data.id in clients)){

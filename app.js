@@ -143,7 +143,8 @@ var sessionSockets = new SessionSockets(io, sessionStore, cookieParser, 'jsessio
 var numChatters = 0;
 sub.subscribe('chat');
 
-rC.set('bg', '1.jpg', function (err, reply) {
+var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', ';https://db.tt/YpVSWPjA']
+rC.set('bg', images[0], function (err, reply) {
   console.log(reply.toString());
 });
 
@@ -163,7 +164,6 @@ io.of('/game').on('connection', function (socket) {
   });
 
   socket.on('change bg', function() {
-    var images = ['https://www.dropbox.com/s/sn7hweh3e014cs5/1.jpg', 'https://www.dropbox.com/s/gurc25k6faz1yzf/2.jpg', 'https://www.dropbox.com/s/t5f8hyw8t7rdavf/3.jpg', 'https://www.dropbox.com/s/a7yhw9n7tee62m5/4.jpg', 'https://www.dropbox.com/s/3lk6ygzxbf0e7tt/5.jpg', 'https://www.dropbox.com/s/g8a366otxrdjsm9/6.jpg', 'https://www.dropbox.com/s/t9tmrwordkytt76/7.jpg', 'https://www.dropbox.com/s/uufxcx3g9wijlvk/8.jpg'];
     var randomBg = images[Math.floor(Math.random()*images.length)];
     rC.set('bg', randomBg, function (err, reply) {
       console.log(reply.toString());
