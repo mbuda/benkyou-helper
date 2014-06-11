@@ -80,8 +80,7 @@ app.get('/game', function(req, res) {
   res.render('game');
 });
 
-var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA'];
-rC.set('bg', images[0], function (err, reply) {
+rC.set('bg', 'https://db.tt/9xBNPLbq', function (err, reply) {
   console.log(reply.toString());
 });
 
@@ -93,6 +92,7 @@ rC.set('bg', images[0], function (err, reply) {
 io.of('/game').on('connection', function (socket) {
 
   socket.on('set bg', function () {
+    var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA'];
     rC.get('bg', function (err, reply) {
       var basicBg = reply.toString();
       console.log(basicBg);
