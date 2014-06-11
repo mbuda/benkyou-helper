@@ -5,14 +5,15 @@
  * require block
  */
 var http = require('http');
+var port = process.env.port || 3000;
 var express = require('express');
 var logfmt = require('logfmt');
 var app = express();
-var httpServer = http.createServer(app);
+var server = http.createServer(app);
 var path = require('path');
 var less = require('less-middleware');
-var socket = require('socket.io');
-var io = socket.listen(httpServer);
+var socketio = require('socket.io');
+var io = socketio.listen(server);
 var redis = require('redis');
 
 if (process.env.REDISTOGO_URL) {
@@ -32,8 +33,8 @@ rC.on('error', function(err) {
  *  configuration
  */
 
+
 app.configure(function() {
-  app.set('port', process.env.PORT || 3000);  // set port
   app.set('views', __dirname + '/views');     // set views directory
   app.set('view engine', 'jade');              // set views engine
   app.use(logfmt.requestLogger());
@@ -59,7 +60,7 @@ app.configure(function() {
  */
 
 app.configure('development', function () {
-  app.use(express.errorHandler());
+  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
 /*
@@ -91,8 +92,8 @@ rC.set('bg', 'https://db.tt/9xBNPLbq', function (err, reply) {
 // Draw game
 io.of('/game').on('connection', function (socket) {
 
+  var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA'];
   socket.on('set bg', function () {
-    var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA'];
     rC.get('bg', function (err, reply) {
       var basicBg = reply.toString();
       console.log(basicBg);
@@ -118,8 +119,6 @@ io.of('/game').on('connection', function (socket) {
   });
 });
 
-var port = app.get('port');
-
-httpServer.listen(port, function() {
-  console.log('Server is listening on port: ' + port);
+server.listen(port, function () {
+  console.log('Server on port: ' + port);
 });
