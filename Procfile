@@ -1,2 +1,2 @@
-web: node app.js
 redis: redis-server
+web: node app.js
