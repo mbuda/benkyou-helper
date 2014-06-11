@@ -5,7 +5,6 @@
  * require block
  */
 var http = require('http');
-var port = process.env.port || 3000;
 var express = require('express');
 var logfmt = require('logfmt');
 var app = express();
@@ -32,7 +31,6 @@ rC.on('error', function(err) {
 /*
  *  configuration
  */
-
 
 app.configure(function() {
   app.set('views', __dirname + '/views');     // set views directory
@@ -119,6 +117,7 @@ io.of('/game').on('connection', function (socket) {
   });
 });
 
+var port = process.env.port || 3000;
 server.listen(port, function () {
   console.log('Server on port: ' + port);
 });
