@@ -15,13 +15,52 @@ var socket = require('socket.io');
 var io = socket.listen(httpServer);
 var _ = require('underscore');
 var redis = require('redis');
-var rC = redis.createClient();
-var redisClient = redis.createClient();
 var sess = require('express-session');
 var RedisStore = require('connect-redis')(sess);
-var rClient = redis.createClient();
-var sessionStore = new RedisStore({client:rClient});
 var cookieParser = express.cookieParser('S3cr3t');
+
+if (process.env.REDISTOGO_URL) {
+  var rtg = require('url').parse(process.env.REDISTOGO_URL);
+  var rC = redis.createClient(rtg.port, rtg.hostname);
+  var redisClient = redis.createClient(rtg.port, rtg.hostname);
+  var rClient = redis.createClient(rtg.port, rtg.hostname);
+  var sub = redis.createClient(rtg.port, rtg.hostname);
+  var pub = redis.createClient(rtg.port, rtg.hostname);
+
+  rC.auth(rtg.auth.split(':')[1]);
+  redisClient.auth(rtg.auth.split(':')[1]);
+  rClient.auth(rtg.auth.split(':')[1]);
+  pub.auth(rtg.auth.split(':')[1]);
+  sub.auth(rtg.auth.split(':')[1]);
+} else {
+  var rC = redis.createClient();
+  var redisClient = redis.createClient();
+  var rClient = redis.createClient();
+  var sub = redis.createClient();
+  var pub = redis.createClient();
+}
+
+rC.on('error', function(err) {
+  console.log('Err: ' + err);
+});
+
+redisClient.on('error', function(err) {
+  console.log('Err: ' + err);
+});
+
+rClient.on('error', function(err) {
+  console.log('Err: ' + err);
+});
+
+pub.on('error', function(err) {
+  console.log('Err: ' + err);
+});
+
+sub.on('error', function(err) {
+  console.log('Err: ' + err);
+});
+
+var sessionStore = new RedisStore({client:rClient});
 
 /*
  *  configuration
@@ -102,8 +141,6 @@ var sessionSockets = new SessionSockets(io, sessionStore, cookieParser, 'jsessio
  */
 
 var numChatters = 0;
-var sub = redis.createClient();
-var pub = redis.createClient();
 sub.subscribe('chat');
 
 rC.set('bg', '1.jpg', function (err, reply) {
