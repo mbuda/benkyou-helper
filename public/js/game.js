@@ -11,7 +11,7 @@ $(document).ready(function () {
   }
 
 	// set url to which socket will be connected
-  var url = window.location.hostname + '/game';
+//  var url = window.location.hostname + '/game';
 
 	// some variables for canvas
   var doc = jQuery(document),
@@ -40,7 +40,7 @@ $(document).ready(function () {
     var clients = {};
     var cursors = {};
 
-    var socket = io.connect(url);
+    var socket = io.connect();
 
     socket.on('connect', function () {
       socket.emit('set bg');
