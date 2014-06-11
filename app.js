@@ -13,54 +13,20 @@ var path = require('path');
 var less = require('less-middleware');
 var socket = require('socket.io');
 var io = socket.listen(httpServer);
-var _ = require('underscore');
 var redis = require('redis');
-var sess = require('express-session');
-var RedisStore = require('connect-redis')(sess);
-var cookieParser = express.cookieParser('S3cr3t');
 
 if (process.env.REDISTOGO_URL) {
   var rtg = require('url').parse(process.env.REDISTOGO_URL);
   var rC = redis.createClient(rtg.port, rtg.hostname);
-  var redisClient = redis.createClient(rtg.port, rtg.hostname);
-  var rClient = redis.createClient(rtg.port, rtg.hostname);
-  var sub = redis.createClient(rtg.port, rtg.hostname);
-  var pub = redis.createClient(rtg.port, rtg.hostname);
 
   rC.auth(rtg.auth.split(':')[1]);
-  redisClient.auth(rtg.auth.split(':')[1]);
-  rClient.auth(rtg.auth.split(':')[1]);
-  pub.auth(rtg.auth.split(':')[1]);
-  sub.auth(rtg.auth.split(':')[1]);
 } else {
   var rC = redis.createClient();
-  var redisClient = redis.createClient();
-  var rClient = redis.createClient();
-  var sub = redis.createClient();
-  var pub = redis.createClient();
 }
 
 rC.on('error', function(err) {
   console.log('Err: ' + err);
 });
-
-redisClient.on('error', function(err) {
-  console.log('Err: ' + err);
-});
-
-rClient.on('error', function(err) {
-  console.log('Err: ' + err);
-});
-
-pub.on('error', function(err) {
-  console.log('Err: ' + err);
-});
-
-sub.on('error', function(err) {
-  console.log('Err: ' + err);
-});
-
-var sessionStore = new RedisStore({client:rClient});
 
 /*
  *  configuration
@@ -75,8 +41,6 @@ app.configure(function() {
   app.use(express.logger('dev'));             // logger on development environment
   app.use(express.bodyParser());              // bodyParser
   app.use(express.methodOverride());          // methodOverride
-  app.use(cookieParser);                      // cookieParser
-  app.use(express.session({store:sessionStore, key:'jsessionid', secret:'S3cr3t'}));  //session set
   app.use(less(path.join(__dirname, 'src', 'less'), {   // less-middleware config, where less is
     dest: path.join(__dirname, 'public'),               // where to write css
     preprocess: {                                       // preprocess to
@@ -112,38 +76,11 @@ app.get('/about', function (req, res){
   res.render('about');
 });
 
-app.get('/chat', function (req, res){
-  var user = req.session.user;
-  req.session.regenerate(function () {
-    req.session.user = user;
-    res.render('chat', {user:req.session.user});
-  });
-});
-
 app.get('/game', function(req, res) {
   res.render('game');
 });
 
-app.post('/user', function(req,res) {
-  req.session.user = req.body.user;
-  res.json({'error': ''});
-});
-
-/*
- * Session sockets vars
- */
-
-var SessionSockets = require('session.socket.io');
-var sessionSockets = new SessionSockets(io, sessionStore, cookieParser, 'jsessionid');
-
-/*
- * Some vars for chat
- */
-
-var numChatters = 0;
-sub.subscribe('chat');
-
-var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA']
+var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA'];
 rC.set('bg', images[0], function (err, reply) {
   console.log(reply.toString());
 });
@@ -181,42 +118,6 @@ io.of('/game').on('connection', function (socket) {
   });
 });
 
-// Chat
-sessionSockets.on('connection', function (err, socket, session) {
-    if(!session.user) { return; }
-
-    socket.on('chat', function (data) {
-      var msg = JSON.parse(data);
-      var reply = JSON.stringify({action:'message', user:session.user, msg:msg.msg });
-        pub.publish('chat', reply);
-    });
-
-    socket.on('join', function () {
-      var reply = JSON.stringify({action :'control', user:session.user, msg:' joined the channel' });
-      pub.publish('chat', reply);
-      ++numChatters;
-      io.sockets.emit('update numChatters', numChatters);
-      io.sockets.emit('add chatter', session.user);
-      redisClient.smembers('chatters', function(err, names) {
-        _.each(names, function(name) {
-          socket.emit('add chatter', name);
-        });
-      redisClient.sadd('chatters', session.user);
-      });
-    });
-    sub.on('message', function (channel, message) {
-        socket.emit(channel, message);
-    });
-
-    socket.on('disconnect', function() {
-      var reply = JSON.stringify({action:'control', user:session.user, msg:' leaved the channel' });
-      pub.publish('chat', reply);
-      --numChatters;
-      io.sockets.emit('update numChatters', numChatters);
-      io.sockets.emit('remove chatter', session.user);
-      redisClient.srem('chatters', session.user);
-    });
-});
 var port = app.get('port');
 
 httpServer.listen(port, function() {
