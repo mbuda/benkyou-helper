@@ -4,6 +4,8 @@
 /*
  * require block
  */
+var fs = require('fs');
+var sys = require('sys');
 var http = require('http');
 var express = require('express');
 var logfmt = require('logfmt');
@@ -83,6 +85,9 @@ rC.set('bg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', functi
   console.log(reply.toString());
 });
 
+var fileName = function () {
+  return '_' + Math.random().toString(36).substr(2,9);
+};
 /*
  * Sockets part of code
  */
@@ -111,6 +116,12 @@ io.of('/game').on('connection', function (socket) {
     });
   });
 
+  socket.on('save img', function (data) {
+    var img = data;
+    var base = img.replace(/^data:image\/\w+;base64,/, "");
+    var buf = new Buffer(base, 'base64');
+    fs.writeFile('./public/img/' + fileName() + '.png', buf);
+  });
 
   socket.on('mousemove', function (data) {
     socket.broadcast.emit('moving', data);

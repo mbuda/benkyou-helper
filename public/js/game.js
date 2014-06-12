@@ -175,6 +175,7 @@ $(document).ready(function () {
         $('#images').append('<img src="' + img + '"/>');
         $('#images').append('<span class="line"></span>');
         $('#save_img').show();
+        socket.emit('save img', img);
     });
 
     $('#change_bg').click(function () {
