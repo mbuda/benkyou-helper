@@ -48,6 +48,7 @@ $(document).ready(function () {
     });
 
     socket.on('bg set', function(data) {
+      img.crossOrigin = 'anonymous';
       img.src = data;
       img.onload = function () {
 	ctx.drawImage(img, 0, 0);
@@ -172,7 +173,7 @@ $(document).ready(function () {
         console.log('Image saved.');
         var img = canvas[0].toDataURL('image/png');
         $('#images').append('<img src="' + img + '"/>');
-        $('#images').append('<span id="line"></span>');
+        $('#images').append('<span class="line"></span>');
         $('#save_img').show();
     });
 

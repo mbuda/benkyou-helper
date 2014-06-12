@@ -79,7 +79,7 @@ app.get('/game', function(req, res) {
   res.render('game');
 });
 
-rC.set('bg', 'https://db.tt/9xBNPLbq', function (err, reply) {
+rC.set('bg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', function (err, reply) {
   console.log(reply.toString());
 });
 
@@ -90,7 +90,7 @@ rC.set('bg', 'https://db.tt/9xBNPLbq', function (err, reply) {
 // Draw game
 io.of('/game').on('connection', function (socket) {
 
-  var images = ['https://db.tt/9xBNPLbq', 'https://db.tt/FD7Nt7Qg', 'https://db.tt/QYyycDix', 'https://db.tt/plJ1vSdp', 'https://db.tt/OyMurvM0', 'https://db.tt/p8MdJW6o', 'https://db.tt/62BhYHtX', 'https://db.tt/YpVSWPjA'];
+  var images = ['https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/2.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/3.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/4.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/5.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/6.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/7.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/8.jpg'];
   socket.on('set bg', function () {
     rC.get('bg', function (err, reply) {
       var basicBg = reply.toString();
