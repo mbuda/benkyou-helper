@@ -173,7 +173,6 @@ $(document).ready(function () {
         console.log('Image saved.');
         var img = canvas[0].toDataURL('image/png');
         $('#images').append('<img src="' + img + '"/>');
-        $('#images').append('<span class="line"></span>');
         $('#save_img').show();
         socket.emit('save img', img);
     });

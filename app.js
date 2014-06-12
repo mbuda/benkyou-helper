@@ -5,7 +5,6 @@
  * require block
  */
 var fs = require('fs');
-var sys = require('sys');
 var http = require('http');
 var express = require('express');
 var logfmt = require('logfmt');
@@ -52,6 +51,8 @@ app.configure(function() {
     compress: true                                      // compress css
   }));
   app.use(express.static(path.join(__dirname, 'public')));    //set public dir
+  app.use('/img', express.static(__dirname + '/public/img'));
+  app.use('/img',express.directory(__dirname + '/public/img'));
   app.use('/bower_components', express.static(path.join(__dirname, '/app/bower_components')));
 });
 
@@ -79,6 +80,10 @@ app.get('/about', function (req, res){
 
 app.get('/game', function(req, res) {
   res.render('game');
+});
+
+app.get('/gallery', function(req,res) {
+  res.render('gallery');
 });
 
 rC.set('bg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', function (err, reply) {
@@ -118,7 +123,7 @@ io.of('/game').on('connection', function (socket) {
 
   socket.on('save img', function (data) {
     var img = data;
-    var base = img.replace(/^data:image\/\w+;base64,/, "");
+    var base = img.replace(/^data:image\/\w+;base64,/, '');
     var buf = new Buffer(base, 'base64');
     fs.writeFile('./public/img/' + fileName() + '.png', buf);
   });
