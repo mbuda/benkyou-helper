@@ -7,6 +7,9 @@
 var fs = require('fs');
 var http = require('http');
 var express = require('express');
+var url = require('url');
+var port = process.env.PORT || 3000;
+var redisURL = url.parse(process.env.REDISCLOUD_URL);
 var logfmt = require('logfmt');
 var app = express();
 var server = http.createServer(app);
@@ -15,15 +18,8 @@ var less = require('less-middleware');
 var socketio = require('socket.io');
 var io = socketio.listen(server);
 var redis = require('redis');
-
-if (process.env.REDISTOGO_URL) {
-  var rtg = require('url').parse(process.env.REDISTOGO_URL);
-  var rC = redis.createClient(rtg.port, rtg.hostname);
-
-  rC.auth(rtg.auth.split(':')[1]);
-} else {
-  var rC = redis.createClient();
-}
+var rC = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
+rC.auth(redisURL.auth.split(':')[1]);
 
 rC.on('error', function(err) {
   console.log('Err: ' + err);
@@ -133,7 +129,6 @@ io.of('/game').on('connection', function (socket) {
   });
 });
 
-var port = process.env.port || 3000;
 server.listen(port, function () {
   console.log('Server on port: ' + port);
 });
