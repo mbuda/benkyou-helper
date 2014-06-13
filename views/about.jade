@@ -3,26 +3,36 @@ extends layout
 block content
   #title.row
     h1 About
-    .col-md-offset-3
       h4 This site was created for Web Technology classes
       p and because I love Japanese language.
       p View the source code on
         a(href="http://github.com/mbuda/benkyou-helper")  Github
-  #about-list.col-md-7
-    .panel.panel-default
-      .panel-heading
-        p What I prepared for you?
-      ul#about-ul.list-group.panel-body
-        li.list-group-item game based on interactive board
-        li.list-group-item gallery of game results
-  #about-tech.col-md-5
-    .panel.panel-default
-      .panel-heading
-        p What I used?
-      ul.list-group.panel-body
-        li.list-group-item Node.js
-        li.list-group-item Express.js
-        li.list-group-item Socket.io
-        li.list-group-item Jade
-        li.list-group-item Redis
+  .col-md-7
+    #about-mnemo
+      p Mnemonics are powerful tool for improve your learning process.
+      | They help your brain to remember through associations.
+      | So let's create beautiful gallery of visual mnemonics for kanji.
+    #about-list
+      .panel.panel-default
+        .panel-heading
+          p What I prepared for you?
+        ul#about-ul.list-group.panel-body
+          li.list-group-item game based on interactive board
+          li.list-group-item gallery of game results
+  .col-md-5
+    #about-tech
+      .panel.panel-default
+        .panel-heading
+          p What I used?
+        ul.list-group.panel-body
+          li.list-group-item
+            a(href='http://nodejs.org') Node.js
+          li.list-group-item
+            a(href='http://expressjs.com') Express.js
+          li.list-group-item
+            a(href='http://socket.io') Socket.io
+          li.list-group-item
+            a(href='http://jade-lang.com') Jade
+          li.list-group-item
+            a(href='http://redis.io') Redis
 
