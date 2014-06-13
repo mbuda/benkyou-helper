@@ -3,7 +3,7 @@
 
 $(document).ready(function () {
 
-  var dir = 'img'
+  var dir = 'img';
   var fileextension = '.png';
   $.ajax({
     url: dir,

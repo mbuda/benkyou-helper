@@ -4,7 +4,12 @@
 /*
  * require block
  */
-var fs = require('fs');
+var dropbox = require('dropbox');
+var client = new dropbox.Client({
+    key: '879girjuj51wsvi',
+    secret: 'wz87axx1zxbpee5',
+    token: 'HFsm8SpY_UgAAAAAAAABr7SEHN6Mehk0gOVtpOJTfqii2Pt_4tO8ZmQDCiS3w0T9',
+});
 var http = require('http');
 var express = require('express');
 var url = require('url');
@@ -60,6 +65,48 @@ app.configure('development', function () {
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
 });
 
+var showError = function(error) {
+  switch (error.status) {
+  case dropbox.ApiError.INVALID_TOKEN:
+    // If you're using dropbox.js, the only cause behind this error is that
+    // the user token expired.
+    // Get the user through the authentication flow again.
+    prompt('Your token has been expired, sorry.');
+    break;
+
+  case dropbox.ApiError.NOT_FOUND:
+    // The file or folder you tried to access is not in the user's Dropbox.
+    // Handling this error is specific to your application.
+    prompt('File or folder not found');
+    break;
+
+  case dropbox.ApiError.OVER_QUOTA:
+    // The user is over their Dropbox quota.
+    // Tell them their Dropbox is full. Refreshing the page won't help.
+    prompt('You have run out of quota. Your Dropbox is full.');
+    break;
+
+  case dropbox.ApiError.RATE_LIMITED:
+    // Too many API requests. Tell the user to try again later.
+    // Long-term, optimize your code to use fewer API calls.
+    prompt('Too many requests, try again later');
+    break;
+
+  case dropbox.ApiError.NETWORK_ERROR:
+    // An error occurred at the XMLHttpRequest layer.
+    // Most likely, the user's network connection is down.
+    // API calls will not succeed until the user gets back online.
+    prompt('Your connection is dead probably');
+    break;
+
+  case dropbox.ApiError.INVALID_PARAM: break;
+  case dropbox.ApiError.OAUTH_ERROR: break;
+  case dropbox.ApiError.INVALID_METHOD: break;
+  default:
+    // Caused by a bug in dropbox.js, in your application, or in Dropbox.
+    // Tell the user an error occurred, ask them to refresh the page.
+  }
+};
 /*
  * Routes
 */
@@ -89,6 +136,7 @@ rC.set('bg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', functi
 var fileName = function () {
   return '_' + Math.random().toString(36).substr(2,9);
 };
+
 /*
  * Sockets part of code
  */
@@ -123,11 +171,14 @@ io.of('/game').on('connection', function (socket) {
     });
   });
 
-  socket.on('save img', function (data) {
-    var img = data;
-    var base = img.replace(/^data:image\/\w+;base64,/, '');
-    var buf = new Buffer(base, 'base64');
-    fs.writeFile('./public/img/' + fileName() + '.png', buf);
+  socket.on('write file', function(data) {
+    var file = fileName();
+    client.writeFile(file + '.png', data, function(error, stat) {
+      if(error) {
+        return console.log('Error: ' + showError(error));
+      }
+      console.log('Image ' + file + ' successfully write on Dropbox.');
+    });
   });
 
   socket.on('mousemove', function (data) {

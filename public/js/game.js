@@ -10,9 +10,6 @@ $(document).ready(function () {
     return false;
   }
 
-	// set url to which socket will be connected
-//  var url = window.location.hostname + '/game';
-
   var url = window.location.hostname + '/game';
 	// some variables for canvas
   var doc = jQuery(document),
@@ -169,12 +166,28 @@ $(document).ready(function () {
       ctx.stroke();
     }
 
+    var base64ToArrayBuffer = function (stringBase64) {
+      var binaryString = window.atob(stringBase64);
+      var len = binaryString.length;
+      var bytes = new Uint8Array(len);
+      for(var i = 0; i < len; i++) {
+        var ascii = binaryString.charCodeAt(i);
+        bytes[i]=ascii;
+      }
+      return bytes.buffer;
+    };
+
     $('#save_img').click( function () {
         console.log('Image saved.');
         var img = canvas[0].toDataURL('image/png');
+        console.log('Base: ' + img);
         $('#images').append('<img src="' + img + '"/>');
+        var base = img.replace(/^data:image\/\w+;base64,/, '');
+        console.log('Base64: ' + base);
+        var imgData = base64ToArrayBuffer(base);
+        console.log('ImgData: ' + imgData);
+        socket.emit('write file', imgData);
         $('#save_img').show();
-        socket.emit('save img', img);
     });
 
     $('#change_bg').click(function () {
