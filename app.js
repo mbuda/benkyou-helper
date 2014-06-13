@@ -129,6 +129,10 @@ app.get('/gallery', function(req,res) {
   res.render('gallery');
 });
 
+app.get('/links', function(req,res) {
+  res.render('links');
+});
+
 rC.set('bg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', function (err, reply) {
   console.log(reply.toString());
 });
@@ -178,6 +182,7 @@ io.of('/game').on('connection', function (socket) {
         return console.log('Error: ' + showError(error));
       }
       console.log('Image ' + file + ' successfully write on Dropbox.');
+      console.log('Stats: ' + stat);
     });
   });
 
