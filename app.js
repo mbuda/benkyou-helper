@@ -154,7 +154,13 @@ io.of('/game').on('connection', function (socket) {
   'https://dl.dropboxusercontent.com/u/259394896/kanji/7.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/8.jpg',
   'https://dl.dropboxusercontent.com/u/259394896/kanji/9.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/10.jpg',
   'https://dl.dropboxusercontent.com/u/259394896/kanji/11.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/12.jpg',
-  'https://dl.dropboxusercontent.com/u/259394896/kanji/13.jpg'];
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/13.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/14.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/15.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/16.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/17.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/18.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/19.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/20.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/21.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/22.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/23.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/24.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/25.jpg'];
   socket.on('set bg', function () {
     rC.get('bg', function (err, reply) {
       var basicBg = reply.toString();
