@@ -14,7 +14,6 @@ var http = require('http');
 var express = require('express');
 var url = require('url');
 var port = process.env.PORT || 3000;
-var redisURL = url.parse(process.env.REDISCLOUD_URL || 'redis://rediscloud:qwcjRddqcKcccaTP@pub-redis-15033.us-east-1-4.1.ec2.garantiadata.com:15033');
 var logfmt = require('logfmt');
 var app = express();
 var server = http.createServer(app);
@@ -22,6 +21,7 @@ var path = require('path');
 var less = require('less-middleware');
 var socketio = require('socket.io');
 var io = socketio.listen(server);
+var redisURL = url.parse(process.env.REDISCLOUD_URL || 'redis://rediscloud:qwcjRddqcKcccaTP@pub-redis-15033.us-east-1-4.1.ec2.garantiadata.com:15033');
 var redis = require('redis');
 var rC = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
 rC.auth(redisURL.auth.split(':')[1]);
@@ -36,7 +36,7 @@ rC.on('error', function(err) {
 
 app.configure(function() {
   app.set('views', __dirname + '/views');     // set views directory
-  app.set('view engine', 'jade');              // set views engine
+  app.set('view engine', 'jade');             // set views engine
   app.use(logfmt.requestLogger());
   app.use(express.favicon());                 // favicon load
   app.use(express.logger('dev'));             // logger on development environment
@@ -107,6 +107,7 @@ var showError = function(error) {
     // Tell the user an error occurred, ask them to refresh the page.
   }
 };
+
 /*
  * Routes
 */
@@ -161,6 +162,7 @@ io.of('/game').on('connection', function (socket) {
   'https://dl.dropboxusercontent.com/u/259394896/kanji/21.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/22.jpg',
   'https://dl.dropboxusercontent.com/u/259394896/kanji/23.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/24.jpg',
   'https://dl.dropboxusercontent.com/u/259394896/kanji/25.jpg'];
+
   socket.on('set bg', function () {
     rC.get('bg', function (err, reply) {
       var basicBg = reply.toString();
@@ -194,6 +196,32 @@ io.of('/game').on('connection', function (socket) {
 
   socket.on('mousemove', function (data) {
     socket.broadcast.emit('moving', data);
+  });
+});
+
+
+io.of('/gallery').on('connection', function (socket) {
+  var rFile = function (img) {
+    client.readFile(img, {arrayBuffer: true}, function (error, data) {
+      if (error) {
+        return showError(error);
+      }
+      socket.emit('get img', data);
+      console.log('Image send');
+    });
+  };
+
+  socket.on('images', function () {
+    client.readdir('/', {removed: false }, function (error, imgs) {
+      if (error) {
+        return showError(error);
+      }
+      console.log('I get your message' + imgs);
+      for(var i=0; i < imgs.length; i++) {
+        console.log('I am in loop' + imgs[i]);
+        rFile(imgs[i]);
+      }
+    });
   });
 });
 
