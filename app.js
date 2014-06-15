@@ -50,7 +50,19 @@ io.of('/game').on('connection', function (socket) {
   'https://dl.dropboxusercontent.com/u/259394896/kanji/19.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/20.jpg',
   'https://dl.dropboxusercontent.com/u/259394896/kanji/21.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/22.jpg',
   'https://dl.dropboxusercontent.com/u/259394896/kanji/23.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/24.jpg',
-  'https://dl.dropboxusercontent.com/u/259394896/kanji/25.jpg'];
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/25.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/26.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/27.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/28.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/29.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/30.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/31.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/32.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/33.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/34.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/35.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/36.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/37.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/38.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/39.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/40.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/41.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/42.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/43.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/44.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/45.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/46.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/47.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/48.jpg',
+  'https://dl.dropboxusercontent.com/u/259394896/kanji/49.jpg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/50.jpg'];
 
   socket.on('set bg', function () {
     rC.get('bg', function (err, reply) {
