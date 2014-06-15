@@ -195,7 +195,7 @@ io.of('/game').on('connection', function (socket) {
   });
 
   socket.on('mousemove', function (data) {
-    socket.broadcast.emit('moving', data);
+    io.of('/game').emit('moving', data);
   });
 });
 

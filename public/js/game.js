@@ -11,7 +11,7 @@ $(document).ready(function () {
   }
 
   var url = window.location.hostname + '/game';
-	// some variables for canvas
+  // some variables for canvas
   var doc = jQuery(document),
   canvas = jQuery('#paper'),
   ctx = canvas[0].getContext('2d'),
@@ -32,174 +32,183 @@ $(document).ready(function () {
   var b = Math.floor(Math.random() * 255) + 70;
   var color = 'rgb(' + r + ',' + g + ',' + b + ')';
 
-    // A flag for drawing activity
-    var drawing = false;
+  // A flag for drawing activity
+  var drawing = false;
 
-    var clients = {};
-    var cursors = {};
+  var clients = {};
+  var cursors = {};
+  //socket connection
+  var socket = io.connect(url);
 
-    var socket = io.connect(url);
+  //on connect inform server you want bg for canvas
+  socket.on('connect', function () {
+    socket.emit('set bg');
+  });
 
-    socket.on('connect', function () {
-      socket.emit('set bg');
-    });
-
-    socket.on('bg set', function(data) {
-      img.crossOrigin = 'anonymous';
-      img.src = data;
-      img.onload = function () {
-	ctx.drawImage(img, 0, 0);
-      };
-      console.log(data);
-    });
-
-    socket.on('moving', function (data) {
-
-      if(! (data.id in clients)){
-        // a new user has come online. create a cursor for them
-        cursors[data.id] = jQuery('<div class="cursor">').appendTo('#cursors');
-      }
-
-      // Move the mouse pointer
-      cursors[data.id].css({
-        'left' : data.x,
-        'top' : data.y
-      });
-
-      // Is the user drawing?
-      if(data.drawing && clients[data.id]){
-
-        // Draw a line on the canvas. clients[data.id] holds
-        // the previous position of this user's mouse pointer
-
-        ctx.strokeStyle = data.color;
-        drawLine(clients[data.id].x, clients[data.id].y, data.x, data.y);
-      }
-
-      // Saving the current client state
-      clients[data.id] = data;
-      clients[data.id].updated = jQuery.now();
-    });
-
-    var prev = {};
-
-    function touchHandler(event)
-    {
-      var touches = event.changedTouches,
-          first = touches[0],
-          type = '';
-      switch(event.type)
-      {
-        case 'touchstart':
-          type = 'mousedown';
-          break;
-        case 'touchmove':
-          type = 'mousemove';
-          break;
-        case 'touchend':
-          type = 'mouseup';
-          break;
-        case 'touchcancel':
-          type = 'mouseup';
-          break;
-        default:
-          return;
-      }
-
-      var simulatedEvent = document.createEvent('MouseEvent');
-      simulatedEvent.initMouseEvent(type, true, true, window, 1,
-          first.screenX, first.screenY,
-          first.clientX, first.clientY, false,
-          false, false, false, 0, null);
-
-      first.target.dispatchEvent(simulatedEvent);
-      event.preventDefault();
-    }
-    document.addEventListener('touchstart', touchHandler, true);
-    document.addEventListener('touchmove', touchHandler, true);
-    document.addEventListener('touchend', touchHandler, true);
-    document.addEventListener('touchcancel', touchHandler, true);
-
-    canvas.on('mousedown', function(e){
-      e.preventDefault();
-      drawing = true;
-      prev.x = e.pageX;
-      prev.y = e.pageY;
-
-    });
-
-    doc.bind('mouseup mouseleave', function(){
-      drawing = false;
-    });
-
-    var lastEmit = jQuery.now();
-
-    doc.on('mousemove', function(e){
-      if(jQuery.now() - lastEmit > 30){
-        socket.emit('mousemove',{
-          'x': e.pageX,
-          'y': e.pageY,
-          'drawing': drawing,
-          'color': color,
-          'id': id
-        });
-        lastEmit = jQuery.now();
-      }
-
-      // Draw a line for the current user's movement, as it is
-      // not received in the socket.on('moving') event above
-
-      if(drawing){
-
-        ctx.strokeStyle = color;
-        drawLine(prev.x, prev.y, e.pageX, e.pageY);
-
-        prev.x = e.pageX;
-        prev.y = e.pageY;
-      }
-    });
-
-    function drawLine(fromx, fromy, tox, toy){
-      ctx.beginPath();
-      ctx.moveTo(fromx - canvasOffset.left, fromy - canvasOffset.top);
-      ctx.lineTo(tox - canvasOffset.left, toy - canvasOffset.top);
-      ctx.stroke();
-    }
-
-    var base64ToArrayBuffer = function (stringBase64) {
-      var binaryString = window.atob(stringBase64);
-      var len = binaryString.length;
-      var bytes = new Uint8Array(len);
-      for(var i = 0; i < len; i++) {
-        var ascii = binaryString.charCodeAt(i);
-        bytes[i]=ascii;
-      }
-      return bytes.buffer;
+  //set received bg on canvas
+  socket.on('bg set', function(data) {
+    img.crossOrigin = 'anonymous';
+    img.src = data;
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0);
     };
+    console.log(data);
+  });
 
-    $('#save_img').click( function () {
-        console.log('Image saved.');
-        var img = canvas[0].toDataURL('image/png');
-        console.log('Base: ' + img);
-        $('#images').append('<img src="' + img + '"/>');
-        var base = img.replace(/^data:image\/\w+;base64,/, '');
-        console.log('Base64: ' + base);
-        var imgData = base64ToArrayBuffer(base);
-        console.log('ImgData: ' + imgData);
-        socket.emit('write file', imgData);
-        $('#save_img').show();
+  //moving from another sockets
+  socket.on('moving', function (data) {
+
+    if(! (data.id in clients)){
+      // a new user has come online. create a cursor for them
+      cursors[data.id] = jQuery('<div class="cursor">').appendTo('#cursors');
+    }
+
+    // Move the mouse pointer
+    cursors[data.id].css({
+      'left' : data.x,
+      'top' : data.y
     });
 
-    $('#change_bg').click(function () {
-        socket.emit('change bg');
-    });
+    // Is the user drawing?
+    if(data.drawing && clients[data.id]){
 
-    $('#bigger_brush').click(function () {
-	ctx.lineWidth += 1;
-    });
+      // Draw a line on the canvas. clients[data.id] holds
+      // the previous position of this user's mouse pointer
 
-    $('#smaller_brush').click(function () {
-	ctx.lineWidth -= 1;
-    });
+      ctx.strokeStyle = data.color;
+      drawLine(clients[data.id].x, clients[data.id].y, data.x, data.y);
+    }
+
+    // Saving the current client state
+    clients[data.id] = data;
+    clients[data.id].updated = jQuery.now();
+  });
+
+  var prev = {};
+
+  function touchHandler(event)
+  {
+    var touches = event.changedTouches,
+        first = touches[0],
+        type = '';
+    switch(event.type)
+    {
+      case 'touchstart':
+        type = 'mousedown';
+        break;
+      case 'touchmove':
+        type = 'mousemove';
+        break;
+      case 'touchend':
+        type = 'mouseup';
+        break;
+      case 'touchcancel':
+        type = 'mouseup';
+        break;
+      default:
+        return;
+    }
+
+    var simulatedEvent = document.createEvent('MouseEvent');
+    simulatedEvent.initMouseEvent(type, true, true, window, 1,
+        first.screenX, first.screenY,
+        first.clientX, first.clientY, false,
+        false, false, false, 0, null);
+
+    first.target.dispatchEvent(simulatedEvent);
+    event.preventDefault();
+  }
+  document.addEventListener('touchstart', touchHandler, true);
+  document.addEventListener('touchmove', touchHandler, true);
+  document.addEventListener('touchend', touchHandler, true);
+  document.addEventListener('touchcancel', touchHandler, true);
+
+  canvas.on('mousedown', function(e){
+    e.preventDefault();
+    drawing = true;
+    prev.x = e.layerX - canvasOffset.offsetLeft;
+    prev.y = e.layerY - canvasOffset.offsetTop;
+
+  });
+
+  doc.bind('mouseup mouseleave', function(){
+    drawing = false;
+  });
+
+  var lastEmit = jQuery.now();
+
+  doc.on('mousemove', function(e){
+    if(jQuery.now() - lastEmit > 30){
+      socket.emit('mousemove',{
+        'x': e.pageX,
+        'y': e.pageY,
+        'drawing': drawing,
+        'color': color,
+        'id': id
+      });
+      lastEmit = jQuery.now();
+    }
+
+    // Draw a line for the current user's movement, as it is
+    // not received in the socket.on('moving') event above
+
+    if(drawing){
+
+      ctx.strokeStyle = color;
+      if(e.pageX || e.pageY) {
+      drawLine(prev.x, prev.y, e.pageX, e.pageY);
+      }
+      else {
+        cx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        cy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+        drawLine(prev.x, prev.y, cx, cy);
+      }
+      prev.x -= canvasOffset.offsetLeft;
+      prev.y -= canvasOffset.offsetTop;
+    }
+  });
+
+  function drawLine(fromx, fromy, tox, toy){
+    ctx.beginPath();
+    ctx.moveTo(fromx - canvasOffset.left, fromy - canvasOffset.top);
+    ctx.lineTo(tox - canvasOffset.left, toy - canvasOffset.top);
+    ctx.stroke();
+  }
+
+  var base64ToArrayBuffer = function (stringBase64) {
+    var binaryString = window.atob(stringBase64);
+    var len = binaryString.length;
+    var bytes = new Uint8Array(len);
+    for(var i = 0; i < len; i++) {
+      var ascii = binaryString.charCodeAt(i);
+      bytes[i]=ascii;
+    }
+    return bytes.buffer;
+  };
+
+  $('#save_img').click( function () {
+      console.log('Image saved.');
+      var img = canvas[0].toDataURL('image/png');
+      console.log('Base: ' + img);
+      $('#images').append('<img src="' + img + '"/>');
+      var base = img.replace(/^data:image\/\w+;base64,/, '');
+      console.log('Base64: ' + base);
+      var imgData = base64ToArrayBuffer(base);
+      console.log('ImgData: ' + imgData);
+      socket.emit('write file', imgData);
+      $('#save_img').show();
+  });
+
+  $('#change_bg').click(function () {
+      socket.emit('change bg');
+  });
+
+  $('#bigger_brush').click(function () {
+ctx.lineWidth += 1;
+  });
+
+  $('#smaller_brush').click(function () {
+ctx.lineWidth -= 1;
+  });
 
 });
