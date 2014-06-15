@@ -152,6 +152,7 @@ $(document).ready(function () {
     // Draw a line for the current user's movement, as it is
     // not received in the socket.on('moving') event above
 
+    var cx, cy;
     if(drawing){
 
       ctx.strokeStyle = color;
