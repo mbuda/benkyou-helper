@@ -111,9 +111,9 @@ io.of('/gallery').on('connection', function (socket) {
       if (error) {
         return showError(error);
       }
-      console.log('I get your message' + imgs);
+      // console.log('I get your message' + imgs);
       for(var i=0; i < imgs.length; i++) {
-        console.log('I am in loop' + imgs[i]);
+        // console.log('I am in loop ' + imgs[i]);
         rFile(imgs[i]);
       }
     });

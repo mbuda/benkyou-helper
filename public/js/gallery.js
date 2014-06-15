@@ -17,15 +17,22 @@ $(document).ready(function () {
     return window.btoa(binary);
   };
 
+  var hideSpinner = function () {
+    $('#loader').hide();
+  };
+
   socket.on('connect', function() {
+    $('#loader').show();
     socket.emit('images');
-    console.log('I want images');
+    // console.log('I want images');
   });
 
   socket.on('get img', function (data) {
-    console.log('I will add image');
-    var img = 'data:image/png;base64,' + arrayBufferToBase64(data);
-    $('#gallery').append('<img src="' + img + '"/>');
+    // console.log('I will add image');
+    var spinnerShowTime = 5000;
+    var img = new Image();
+    img.src = 'data:image/png;base64,' + arrayBufferToBase64(data);
+    setTimeout(hideSpinner, spinnerShowTime);
+    $('#gallery').append('<img src="' + img.src + '"/>');
   });
-
 });
