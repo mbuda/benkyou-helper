@@ -15,7 +15,7 @@ var showError = function(error) {
     // If you're using dropbox.js, the only cause behind this error is that
     // the user token expired.
     // Get the user through the authentication flow again.
-    prompt('Your token has been expired, sorry.');
+    console.log('Your token has been expired, sorry.');
     break;
 
   case dropbox.ApiError.NOT_FOUND:

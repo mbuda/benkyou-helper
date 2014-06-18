@@ -15,10 +15,8 @@ $(document).ready(function () {
   var doc = jQuery(document),
   canvas = jQuery('#paper'),
   ctx = canvas[0].getContext('2d'),
-  img = new Image(),
-  canvasOffset = canvas.offset();
+  img = new Image();
 
-  // ctx setup
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.lineWidth = 5;
@@ -124,11 +122,13 @@ $(document).ready(function () {
   document.addEventListener('touchcancel', touchHandler, true);
 
   canvas.on('mousedown', function(e){
+    var canvasOffset = canvas.offset();
     e.preventDefault();
     drawing = true;
-    prev.x = e.layerX - canvasOffset.offsetLeft;
-    prev.y = e.layerY - canvasOffset.offsetTop;
-
+    // console.log('PageX: ' + e.pageX + 'pageY: ' + e.pageY);
+    // console.log('Canv of l: ' + canvasOffset.left + 'top: ' + canvasOffset.top);
+    prev.x = e.pageX;
+    prev.y = e.pageY;
   });
 
   doc.bind('mouseup mouseleave', function(){
@@ -152,24 +152,17 @@ $(document).ready(function () {
     // Draw a line for the current user's movement, as it is
     // not received in the socket.on('moving') event above
 
-    var cx, cy;
     if(drawing){
 
       ctx.strokeStyle = color;
-      if(e.pageX || e.pageY) {
       drawLine(prev.x, prev.y, e.pageX, e.pageY);
-      }
-      else {
-        cx = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-        cy = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-        drawLine(prev.x, prev.y, cx, cy);
-      }
-      prev.x -= canvasOffset.offsetLeft;
-      prev.y -= canvasOffset.offsetTop;
+      prev.x = e.pageX;
+      prev.y = e.pageY;
     }
   });
 
   function drawLine(fromx, fromy, tox, toy){
+    var canvasOffset = canvas.offset();
     ctx.beginPath();
     ctx.moveTo(fromx - canvasOffset.left, fromy - canvasOffset.top);
     ctx.lineTo(tox - canvasOffset.left, toy - canvasOffset.top);
