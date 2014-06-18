@@ -1,6 +1,8 @@
 #Benkyou Helper 
 ## My first Node.js project
 
+You can check it out on [heroku](http://whispering-river-6949.herokuapp.com/)
+
 ###How to run
 
 To run the app you need to have redis install and it's server running.
