@@ -14,9 +14,7 @@ $(document).ready(function () {
   // some variables for canvas
   var doc = jQuery(document),
   canvas = jQuery('#paper'),
-  ctx = canvas[0].getContext('2d'),
-  img = new Image();
-
+  ctx = canvas[0].getContext('2d');
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
   ctx.lineWidth = 5;
@@ -38,6 +36,27 @@ $(document).ready(function () {
   //socket connection
   var socket = io.connect(url);
 
+  var base64ToArrayBuffer = function (stringBase64) {
+    var binaryString = window.atob(stringBase64);
+    var len = binaryString.length;
+    var bytes = new Uint8Array(len);
+    for(var i = 0; i < len; i++) {
+      var ascii = binaryString.charCodeAt(i);
+      bytes[i]=ascii;
+    }
+    return bytes.buffer;
+  };
+
+  var arrayBufferToDataUri = function (buffer) {
+    var binary = '';
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return 'data:image/jpeg;base64,' + window.btoa(binary);
+  };
+
   //on connect inform server you want bg for canvas
   socket.on('connect', function () {
     socket.emit('set bg');
@@ -45,12 +64,13 @@ $(document).ready(function () {
 
   //set received bg on canvas
   socket.on('bg set', function(data) {
-    img.crossOrigin = 'anonymous';
-    img.src = data;
+    console.log('Wow: ' + data);
+    var img = new Image();
+    console.log('Buffer: ' + arrayBufferToDataUri(data));
+    img.src = arrayBufferToDataUri(data);
     img.onload = function () {
       ctx.drawImage(img, 0, 0);
     };
-    console.log(data);
   });
 
   //moving from another sockets
@@ -168,17 +188,6 @@ $(document).ready(function () {
     ctx.lineTo(tox - canvasOffset.left, toy - canvasOffset.top);
     ctx.stroke();
   }
-
-  var base64ToArrayBuffer = function (stringBase64) {
-    var binaryString = window.atob(stringBase64);
-    var len = binaryString.length;
-    var bytes = new Uint8Array(len);
-    for(var i = 0; i < len; i++) {
-      var ascii = binaryString.charCodeAt(i);
-      bytes[i]=ascii;
-    }
-    return bytes.buffer;
-  };
 
   $('#save_img').click( function () {
       console.log('Image saved.');

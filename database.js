@@ -6,14 +6,12 @@ var redisURL = url.parse(process.env.REDISCLOUD_URL || 'redis://rediscloud:qwcjR
 var redis = require('redis');
 var rC = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
 
+redis.debug_mode = true;
+
 rC.auth(redisURL.auth.split(':')[1]);
 
 rC.on('error', function(err) {
   console.log('Err: ' + err);
-});
-
-rC.set('bg', 'https://dl.dropboxusercontent.com/u/259394896/kanji/1.jpg', function (err, reply) {
-  console.log(reply.toString());
 });
 
 module.exports = {

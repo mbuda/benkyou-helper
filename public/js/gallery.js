@@ -28,9 +28,10 @@ $(document).ready(function () {
   });
 
   socket.on('get img', function (data) {
-    // console.log('I will add image');
+    //console.log('I will add image' + data);
     var spinnerShowTime = 5000;
     var img = new Image();
+    //console.log('Buffer: ' + arrayBufferToBase64(data));
     img.src = 'data:image/png;base64,' + arrayBufferToBase64(data);
     setTimeout(hideSpinner, spinnerShowTime);
     $('#gallery').append('<img src="' + img.src + '"/>');
