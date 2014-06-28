@@ -21,26 +21,26 @@ var showError = function(error) {
   case dropbox.ApiError.NOT_FOUND:
     // The file or folder you tried to access is not in the user's Dropbox.
     // Handling this error is specific to your application.
-    prompt('File or folder not found');
+    console.log('File or folder not found');
     break;
 
   case dropbox.ApiError.OVER_QUOTA:
     // The user is over their Dropbox quota.
     // Tell them their Dropbox is full. Refreshing the page won't help.
-    prompt('You have run out of quota. Your Dropbox is full.');
+    console.log('You have run out of quota. Your Dropbox is full.');
     break;
 
   case dropbox.ApiError.RATE_LIMITED:
     // Too many API requests. Tell the user to try again later.
     // Long-term, optimize your code to use fewer API calls.
-    prompt('Too many requests, try again later');
+    console.log('Too many requests, try again later');
     break;
 
   case dropbox.ApiError.NETWORK_ERROR:
     // An error occurred at the XMLHttpRequest layer.
     // Most likely, the user's network connection is down.
     // API calls will not succeed until the user gets back online.
-    prompt('Your connection is dead probably');
+    console.log('Your connection is dead probably');
     break;
 
   case dropbox.ApiError.INVALID_PARAM: break;

@@ -92,7 +92,7 @@ io.of('/game').on('connection', function (socket) {
 
   socket.on('write file', function(data) {
     var file = fileName();
-    client.writeFile(file + '.png', data, function(error, stat) {
+    client.writeFile('./gallery/' + file + '.png', data, function(error, stat) {
       if(error) {
         return console.log('Error: ' + showError(error));
       }
@@ -109,7 +109,7 @@ io.of('/game').on('connection', function (socket) {
 // Gallery namespace //
 io.of('/gallery').on('connection', function (socket) {
   var rFile = function (img) {
-    client.readFile(img, {arrayBuffer: true}, function (error, data) {
+    client.readFile('gallery/' + img, {arrayBuffer: true}, function (error, data) {
       if (error) {
         return showError(error);
       }
@@ -119,13 +119,14 @@ io.of('/gallery').on('connection', function (socket) {
   };
 
   socket.on('images', function () {
-    client.readdir('/', {removed: false }, function (error, imgs) {
+    console.log('i get it');
+    client.readdir('gallery', {removed: false }, function (error, imgs) {
       if (error) {
         return showError(error);
       }
-      // console.log('I get your message' + imgs);
+      //console.log('I get your message' + imgs);
       for(var i=0; i < imgs.length; i++) {
-        // console.log('I am in loop ' + imgs[i]);
+         //console.log('I am in loop ' + imgs[i]);
         rFile(imgs[i]);
       }
     });

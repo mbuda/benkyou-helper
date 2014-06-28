@@ -1,7 +1,8 @@
 node_modules
 dist
-.tmp
-.sass-cache
+*.tmp
+*.swp
+*.sass-cache
 app/bower_components
 test/bower_components
 public/css
