@@ -6,7 +6,7 @@ var redisURL = url.parse(process.env.REDISCLOUD_URL || 'redis://rediscloud:qwcjR
 var redis = require('redis');
 var rC = redis.createClient(redisURL.port, redisURL.hostname, {no_ready_check: true});
 
-redis.debug_mode = true;
+//redis.debug_mode = true;
 
 rC.auth(redisURL.auth.split(':')[1]);
 

@@ -32,7 +32,6 @@ $(document).ready(function () {
   var drawing = false;
 
   var clients = {};
-  var cursors = {};
   //socket connection
   var socket = io.connect(url);
 
@@ -75,17 +74,6 @@ $(document).ready(function () {
 
   //moving from another sockets
   socket.on('moving', function (data) {
-
-    if(! (data.id in clients)){
-      // a new user has come online. create a cursor for them
-      cursors[data.id] = jQuery('<div class="cursor">').appendTo('#cursors');
-    }
-
-    // Move the mouse pointer
-    cursors[data.id].css({
-      'left' : data.x,
-      'top' : data.y
-    });
 
     // Is the user drawing?
     if(data.drawing && clients[data.id]){
