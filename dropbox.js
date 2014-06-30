@@ -49,6 +49,7 @@ var showError = function(error) {
   default:
     // Caused by a bug in dropbox.js, in your application, or in Dropbox.
     // Tell the user an error occurred, ask them to refresh the page.
+    console.log('Some bug is here.');
   }
 };
 

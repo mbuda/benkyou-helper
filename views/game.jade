@@ -5,6 +5,11 @@ block content
   .col-md-7
     canvas#paper(width='600px', height='400px')
       | If your browser don't support canvas you can't play with us...
+    #tip
+      h3 Here you got hiragana to read kanji pronounciation
+      button#show-hiragana.btn.btn-success Show/hide hiragana
+      #hiragana
+        img(src='../img/hiragana.png')
 
   .col-md-5
     #instructions
@@ -22,6 +27,8 @@ block content
       button#smaller_brush.btn.btn-success
         span.glyphicon.glyphicon-minus
         |  brush
+
+  .clear-fix
 
   .row
     #images

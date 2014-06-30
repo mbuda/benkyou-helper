@@ -40,8 +40,8 @@ client.readdir('kanji', {removed: false }, function (error, imgs) {
   if (error) {
     return showError(error);
   }
-  for(var i=0; i < imgs.length; i++) {
-    rC.sadd('bgs', imgs[i], function (err, reply) {
+  for(var i=0, img; img = imgs[i++];) {
+    rC.sadd('bgs', img, function (err, reply) {
       if (err) {
         console.log('Error occured when writing bgs: ' + err);
       }
@@ -121,7 +121,7 @@ io.of('/gallery').on('connection', function (socket) {
         return showError(error);
       }
       //console.log('I get your message' + imgs);
-      for(var i=0; i < imgs.length; i++) {
+      for(var i=0, img; img = imgs[i++];) {
          //console.log('I am in loop ' + imgs[i]);
         rFile(imgs[i]);
       }
