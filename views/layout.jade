@@ -41,28 +41,29 @@ html.no-js
     // build:js({app,.tmp}) scripts/main.js
     script(type="text/javascript", src="js/main.js")
     // endbuild
-    .container
-      .header
-        ul.nav.nav-pills.pull-right
-          li
-            a(href="/") Home
-          li
-            a(href="/about") About
-          li
-            a(href="/game") Game
-          li
-            a(href="/gallery") Gallery
-          li
-            a(href="/contact") Contact
-          li
-            a(href="/links") Links
 
+    .header
+      ul.nav.nav-pills.pull-right
+        li
+          a(href="/") Home
+        li
+          a(href="/about") About
+        li
+          a(href="/game") Game
+        li
+          a(href="/gallery") Gallery
+        li
+          a(href="/contact") Contact
+        li
+          a(href="/links") Links
+
+    .container
       .row
         block content
 
-      .footer
-        p
-          span.glyphicon.glyphicon-heart
-          |  Made by Marta "Anaksamea" Buda
+    .footer
+      p
+        span.glyphicon.glyphicon-heart
+        |  Made by Marta "Anaksamea" Buda
 
-      block scripts
+    block scripts
