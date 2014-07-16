@@ -1,3 +1,5 @@
+@bg: #64007F;
+
 .browsehappy {
     margin: 0.2em 0;
     background: #ccc;
@@ -10,11 +12,11 @@ html {
 }
 
 body {
-    background-color: #C800FF;
+    background-color: spin(lighten(@bg, 25%), 8);
 }
 
 .container {
-    background-color: #D84CFF;
+    background-color: spin(lighten(@bg, 50%), 8);
     padding-top: 30px;
     padding-bottom: 20px;
 }
@@ -29,7 +31,7 @@ body {
 
 /* Custom page header */
 .header {
-    background: url(../img/logo.png) no-repeat center left 50px #64007F;
+    background: url(../img/logo.png) no-repeat center left 50px @bg;
     font-size: 1.2em;
     margin-top: 0;
     margin-bottom: 0;
