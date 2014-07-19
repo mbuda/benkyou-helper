@@ -7,7 +7,9 @@ block content
       | If your browser don't support canvas you can't play with us...
     #tip
       h3 Here you got hiragana to read kanji pronounciation
-      button#show-hiragana.btn.btn-success Show/hide hiragana
+      button#show-hiragana.btn.btn-success
+        span.glyphicon.glyphicon-gift
+        |  Show/hide hiragana
       #hiragana
         img(src='../img/hiragana.png')
 
@@ -18,8 +20,12 @@ block content
       h4 If you want to clear your board, refresh page or change background
 
     #board-btns
-      button#save_img.btn.btn-success Save an image
-      button#change_bg.btn.btn-success Change background
+      button#save_img.btn.btn-success
+        span.glyphicon.glyphicon-floppy-save
+        |  Save to gallery
+      button#change_bg.btn.btn-success
+        span.glyphicon.glyphicon-random
+        |  Change background kanji
       br
       button#bigger_brush.btn.btn-success
         span.glyphicon.glyphicon-plus
