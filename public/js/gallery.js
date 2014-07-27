@@ -35,5 +35,7 @@ $(document).ready(function () {
     img.src = 'data:image/png;base64,' + arrayBufferToBase64(data);
     setTimeout(hideSpinner, spinnerShowTime);
     $('#gallery').append('<img src="' + img.src + '"/>');
+    $('#gallery').append('<button class="btn btn-success pull-right move-up">Helped me</button>');
+    $('#gallery').append('<button class="btn btn-danger pull-left move-down">Not helpful</button>');
   });
 });
