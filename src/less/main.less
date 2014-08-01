@@ -5,7 +5,7 @@
 @import "links.less";
 @import "gallery.less";
 
-@bg: #64007F;
+@bg: #5b2641;
 
 * {
   margin: 0
@@ -20,7 +20,7 @@ html {
 }
 
 body {
-    background-color: spin(lighten(@bg, 25%), 8);
+    background-color: spin(lighten(@bg, 50%), 8);
 }
 .browsehappy {
     margin: 0.2em 0;
@@ -30,7 +30,7 @@ body {
 }
 
 .container {
-    background-color: spin(lighten(@bg, 50%), 8);
+    background-color: spin(lighten(@bg, 70%), 8);
     padding-top: 30px;
     padding-bottom: 20px;
     min-height: 100%;
@@ -67,7 +67,7 @@ body {
     padding-top: 19px;
     padding-bottom: 25px;
     color: @c;
-    background-color: #64007F;
+    background-color: @bg;
     p {
         padding-left: 50px;
     }
@@ -81,4 +81,21 @@ body {
   clear: both;
 }
 
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    .container {
+        max-width: 90%;
+    }
 
+    /* Remove the padding we set earlier */
+    .header,
+    .footer {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Remove the bottom border on the jumbotron for visual effect */
+    .jumbotron {
+        border-bottom: 0;
+    }
+}

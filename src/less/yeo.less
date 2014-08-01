@@ -1,7 +1,8 @@
 /* Main marketing message and sign up button */
 .jumbotron {
+    background-color: lighten(@bg, 60%);
     max-width: 88%;
-    margin: 10px auto;
+    margin: 40px auto;
     text-align: center;
     border-bottom: 1px solid #e5e5e5;
     .box-mixin
@@ -13,21 +14,3 @@
     margin-top: 10px;
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-    .container {
-        max-width: 90%;
-    }
-
-    /* Remove the padding we set earlier */
-    .header,
-    .footer {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
-    }
-}
