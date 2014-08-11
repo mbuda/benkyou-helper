@@ -44,30 +44,13 @@ html.no-js
     script(type="text/javascript", src="js/main.js")
     // endbuild
 
-    .header
-      ul.nav.nav-pills.pull-right
-        li
-          a(href="/")
-            span.glyphicon.glyphicon-home
-        li
-          a(href="/about") About
-        li
-          a(href="/game") Game
-        li
-          a(href="/gallery") Gallery
-        li
-          a(href="/contact") Contact
-        li
-          a(href="/links") Links
+    include header
 
     .container
       .row
         block content
         .push-down-footer
 
-    .footer
-      p
-        span.glyphicon.glyphicon-heart
-        |  Made by Marta "Anaksamea" Buda
+    include footer
 
     block scripts
