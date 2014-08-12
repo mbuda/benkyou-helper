@@ -5,7 +5,7 @@
 $(document).ready(function () {
 
   $('#show-hiragana').click(function() {
-  $('#hiragana').slideToggle('slow');
+    $('#hiragana').slideToggle('slow');
   });
 
   // Your browser need to support canvas element
