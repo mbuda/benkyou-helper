@@ -23,4 +23,16 @@ $(document).ready(function () {
     });
   });
   */
+
+  //panels all over the site
+  $('.list-group-item').hover(function(){
+    if(!$(this).hasClass('animated')) {
+      $(this).dequeue().stop().animate({left: '10px'});
+    }
+  }, function() {
+    $(this).addClass('animated').animate({left: '0px'}, 'normal', 'linear', function() {
+      $(this).removeClass('animated').dequeue();
+    });
+  });
+
 });
