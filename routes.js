@@ -24,4 +24,7 @@ module.exports = function(app){
   app.get('/links', function(req,res) {
     res.render('links');
   });
+  app.get('*', function(req, res) {
+    res.render('404');
+  });
 };
