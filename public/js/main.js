@@ -12,18 +12,6 @@ $(document).ready(function () {
     });
   });
 
-  /* I want these hearts to beat on hover but do not now how to repeat it
-  $('.footer').hover(function() {
-    if(!$('.glyphicon-heart').hasClass('animated')) {
-      $('.glyphicon-heart').dequeue().stop().animate({fontSize: '18px', top: '4px'});
-    }
-  }, function() {
-    $('.glyphicon-heart').addClass('animated').animate({fontSize: '14px', top: '0'}, 'normal', 'linear', function() {
-      $('.glyphicon-heart').removeClass('animated').dequeue();
-    });
-  });
-  */
-
   //panels all over the site
   $('.list-group-item').hover(function(){
     if(!$(this).hasClass('animated')) {
