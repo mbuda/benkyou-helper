@@ -134,11 +134,9 @@ $(document).ready(function () {
   document.addEventListener('touchcancel', touchHandler, true);
 
   canvas.on('mousedown', function(e){
-    var canvasOffset = canvas.offset();
     e.preventDefault();
     drawing = true;
     // console.log('PageX: ' + e.pageX + 'pageY: ' + e.pageY);
-    // console.log('Canv of l: ' + canvasOffset.left + 'top: ' + canvasOffset.top);
     prev.x = e.pageX;
     prev.y = e.pageY;
   });

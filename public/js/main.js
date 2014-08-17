@@ -1,4 +1,6 @@
 /*jshint globalstrict: true, devel: true, browser: true */
+'use strict';
+
 console.log('Benkyou Helper welcomes you!');
 
 $(document).ready(function () {

@@ -36,6 +36,6 @@ $(document).ready(function () {
     setTimeout(hideSpinner, spinnerShowTime);
     $('#gallery-list').append(
       $('<li>').append('<img src="' + img.src + '"/>')
-    )
+    );
   });
 });
