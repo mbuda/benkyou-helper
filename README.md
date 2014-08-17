@@ -1,12 +1,9 @@
-#Benkyou Helper 
+#Benkyou Helper
 ## My first Node.js project
 
 You can check it out on [heroku](http://whispering-river-6949.herokuapp.com/)
 
 ###How to run
-
-To run the app you need to have redis install and it's server running.
-You can download it from [redis.io](http://redis.io/topics/quickstart).
 
 Don't forget to start with
 
@@ -17,16 +14,15 @@ Don't forget to start with
 commands.
 
 
-Then simply write 
+Then simply write
 
     node app.js
-    
-in your terminal to start application server. A
 
+in your terminal to start application server.
 
-All is left: visit [this site](http://localhost:3000) and enjoy.
+Now you can enjoy site on your browser through localhost.
 
 ###About application.
 
 This app was created for Web Technology classes.
-It may help with learning japanese language.
+It may help with learning Japanese language.
