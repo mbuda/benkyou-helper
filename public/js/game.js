@@ -2,11 +2,10 @@
 /* global io */
 'use strict';
 
-$(document).ready(function () {
-
-  $('#show-hiragana').click(function() {
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('show-hiragana').onclick = function() {
     $('#hiragana').slideToggle('slow');
-  });
+  };
 
   // Your browser need to support canvas element
   if(!('getContext' in document.createElement('canvas'))){
@@ -67,9 +66,9 @@ $(document).ready(function () {
 
   //set received bg on canvas
   socket.on('bg set', function(data) {
-    console.log('Wow: ' + data);
+    //console.log('Wow: ' + data);
     var img = new Image();
-    console.log('Buffer: ' + arrayBufferToDataUri(data));
+    //console.log('Buffer: ' + arrayBufferToDataUri(data));
     img.src = arrayBufferToDataUri(data);
     img.onload = function () {
       ctx.drawImage(img, 0, 0);
@@ -179,29 +178,27 @@ $(document).ready(function () {
     ctx.stroke();
   }
 
-  $('#save_img').click( function () {
-      console.log('Image saved.');
-      var img = canvas[0].toDataURL('image/png');
-      console.log('Base: ' + img);
-      $('#images').append('<img src="' + img + '"/>');
-      var base = img.replace(/^data:image\/\w+;base64,/, '');
-      console.log('Base64: ' + base);
-      var imgData = base64ToArrayBuffer(base);
-      console.log('ImgData: ' + imgData);
-      socket.emit('write file', imgData);
-      $('#save_img').show();
-  });
+  document.getElementById('save_img').onclick = function () {
+    var img = canvas[0].toDataURL('image/png');
+    console.log('Base: ' + img);
+    $('#images').append('<img src="' + img + '"/>');
+    var base = img.replace(/^data:image\/\w+;base64,/, '');
+    console.log('Base64: ' + base);
+    var imgData = base64ToArrayBuffer(base);
+    console.log('ImgData: ' + imgData);
+    socket.emit('write file', imgData);
+  };
 
-  $('#change_bg').click(function () {
-      socket.emit('change bg');
-  });
+  document.getElementById('change_bg').onclick = function () {
+    socket.emit('change bg');
+  };
 
-  $('#bigger_brush').click(function () {
-ctx.lineWidth += 1;
-  });
+  document.getElementById('bigger_brush').onclick = function () {
+    ctx.lineWidth += 1;
+  };
 
-  $('#smaller_brush').click(function () {
-ctx.lineWidth -= 1;
-  });
+  document.getElementById('smaller_brush').onclick = function() {
+    ctx.lineWidth -= 1;
+  };
 
 });

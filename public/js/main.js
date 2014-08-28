@@ -3,7 +3,7 @@
 
 console.log('Benkyou Helper welcomes you!');
 
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function () {
   $('.nav li').hover(function(){
     if(!$(this).hasClass('animated')) {
       $(this).dequeue().stop().animate({bottom: '10px', right: '7px'});

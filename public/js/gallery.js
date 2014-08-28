@@ -2,8 +2,7 @@
 /* global io */
 'use strict';
 
-$(document).ready(function () {
-
+document.addEventListener('DOMContentLoaded', function () {
   var url = window.location.hostname + '/gallery';
   var socket = io.connect(url);
 
