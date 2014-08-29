@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
   ctx.lineWidth = 5;
 
   // Generate an unique ID
-  var id = Math.round(jQuery.now()*Math.random());
+  var id = Math.round(Date.now()*Math.random());
 
   //Generate a random color
   var r = Math.floor(Math.random() * 255) + 70;
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Saving the current client state
     clients[data.id] = data;
-    clients[data.id].updated = jQuery.now();
+    clients[data.id].updated = Date.now();
   });
 
   var prev = {};
@@ -144,10 +144,10 @@ document.addEventListener('DOMContentLoaded', function () {
     drawing = false;
   });
 
-  var lastEmit = jQuery.now();
+  var lastEmit = Date.now();
 
   doc.on('mousemove', function(e){
-    if(jQuery.now() - lastEmit > 30){
+    if(Date.now() - lastEmit > 30){
       socket.emit('mousemove',{
         'x': e.pageX,
         'y': e.pageY,
@@ -155,7 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'color': color,
         'id': id
       });
-      lastEmit = jQuery.now();
+      lastEmit = Date.now();
     }
 
     // Draw a line for the current user's movement, as it is

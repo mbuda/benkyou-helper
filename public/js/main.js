@@ -24,5 +24,4 @@ document.addEventListener('DOMContentLoaded', function () {
       $(this).removeClass('animated').dequeue();
     });
   });
-
 });
