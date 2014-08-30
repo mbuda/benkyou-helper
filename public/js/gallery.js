@@ -1,4 +1,4 @@
-/*jshint globalstrict: true, devel: true, browser: true, jquery: true */
+/*jshint globalstrict: true, devel: true, browser: true */
 /* global io */
 'use strict';
 
@@ -17,24 +17,26 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   var hideSpinner = function () {
-    $('#loader').hide();
+    document.getElementById('loader').style.display = 'none';
   };
 
   socket.on('connect', function() {
-    $('#loader').show();
+    document.getElementById('loader').style.display = 'block';
     socket.emit('images');
     // console.log('I want images');
   });
 
   socket.on('get img', function (data) {
     console.log('I will add image' + data);
-    var spinnerShowTime = 5000;
+    var spinnerShowTime = 4000;
     var img = new Image();
     //console.log('Buffer: ' + arrayBufferToBase64(data));
-    img.src = 'data:image/png;base64,' + arrayBufferToBase64(data);
     setTimeout(hideSpinner, spinnerShowTime);
-    $('#gallery-list').append(
-      $('<li>').append('<img src="' + img.src + '"/>')
-    );
+    img.src = 'data:image/png;base64,' + arrayBufferToBase64(data);
+    var li = document.createElement('li');
+    var im = document.createElement('img');
+    im.src = img.src;
+    li.appendChild(im);
+    document.getElementById('gallery-list').appendChild(li);
   });
 });
