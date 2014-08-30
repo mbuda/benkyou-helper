@@ -25,4 +25,5 @@ Now you can enjoy site on your browser through localhost.
 ###About application.
 
 This app was created for Web Technology classes.
-It may help with learning Japanese language.
+It may help with learning Japanese language through mnemonics.
+The idea is to share your visual association to particular kanji to help others remember them.
