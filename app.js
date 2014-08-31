@@ -31,27 +31,27 @@ var fileName = function () {
   return '_' + Math.random().toString(36).substr(2,9);
 };
 
-/*
- * Sockets part of code
- */
-
 //write all kanji to redis bgs set
 client.readdir('kanji', {removed: false }, function (error, imgs) {
   if (error) {
     return showError(error);
   }
-  for(var i=0, img; img = imgs[i++];) {
+  for(var i=0, img; (img = imgs[i++]) !== null;) {
     rC.sadd('bgs', img, function (err, reply) {
       if (err) {
         console.log('Error occured when writing bgs: ' + err);
       }
+      console.log('Successfully added: ' + reply);
     });
   }
 });
 
+/*
+ * Sockets part of code
+ */
+
 // Draw game namespace //
 io.of('/game').on('connection', function (socket) {
-
   socket.on('set bg', function () {
     rC.get('bg', function (err, reply) {
       if (err) {
@@ -71,10 +71,12 @@ io.of('/game').on('connection', function (socket) {
       if (err) {
         console.log('Something went wrong with srandmember ' + err);
       }
+      console.log('Success: ' + reply);
       rC.set('bg', reply, function (err, reply) {
         if (err) {
           console.log('Error when adding bg data ' + err);
         }
+        console.log('Success: ' + reply);
       });
       client.readFile('kanji/' + reply, {arrayBuffer: true}, function (error, data) {
         if (error) {
@@ -121,7 +123,7 @@ io.of('/gallery').on('connection', function (socket) {
         return showError(error);
       }
       //console.log('I get your message' + imgs);
-      for(var i=0, img; img = imgs[i++];) {
+      for(var i=0, img; (img = imgs[i++]) !== null;) {
          //console.log('I am in loop ' + imgs[i]);
         rFile(imgs[i]);
       }
